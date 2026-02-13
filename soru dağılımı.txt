@@ -1,0 +1,40 @@
+LEVEL 1–20 
+
+5 soru difficult 1
+
+2 soru difficult 2
+
+2 soru difficult 3
+
+1 soru difficult 4
+
+
+🟡 LEVEL 21–40 
+
+3 soru difficult 1
+
+3 soru difficult 2
+
+2 soru difficult 3
+
+2 soru difficult 4
+
+🟠 LEVEL 41–80
+
+1 soru difficult 1
+
+2 soru difficult 2
+
+3 soru difficult 3
+
+4 soru difficult 4
+
+🔴 LEVEL 81–120
+
+0 soru difficult 1
+
+1 soru difficult 2
+
+4 soru difficult 3
+
+5 soru difficult 4

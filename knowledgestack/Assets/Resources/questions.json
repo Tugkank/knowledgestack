@@ -1,0 +1,54 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "category": "Genel Kültür",
+      "text_tr": "Türkiye'nin başkenti neresidir?",
+      "text_en": "What is the capital of Turkey?",
+      "answer": "Ankara",
+      "wrong": ["İstanbul", "İzmir", "Bursa"],
+      "difficulty": 1,
+      "time": 15
+    },
+    {
+      "id": 2,
+      "category": "Bilim",
+      "text_tr": "H2O formülü neyi ifade eder?",
+      "text_en": "What does the formula H2O represent?",
+      "answer": "Su",
+      "wrong": ["Hava", "Ateş", "Toprak"],
+      "difficulty": 1,
+      "time": 15
+    },
+    {
+      "id": 3,
+      "category": "Tarih",
+      "text_tr": "İstanbul kaç yılında fethedildi?",
+      "text_en": "In which year was Istanbul conquered?",
+      "answer": "1453",
+      "wrong": ["1071", "1299", "1923"],
+      "difficulty": 2,
+      "time": 20
+    },
+    {
+      "id": 4,
+      "category": "Teknoloji",
+      "text_tr": "Unity oyun motorunun kullandığı birincil programlama dili hangisidir?",
+      "text_en": "What is the primary programming language used by Unity game engine?",
+      "answer": "C#",
+      "wrong": ["C++", "Java", "Python"],
+      "difficulty": 2,
+      "time": 20
+    },
+     {
+      "id": 5,
+      "category": "Spor",
+      "text_tr": "Futbolda bir takım sahada kaç kişiyle oynar?",
+      "text_en": "How many players does a football team have on the field?",
+      "answer": "11",
+      "wrong": ["7", "9", "12"],
+      "difficulty": 1,
+      "time": 10
+    }
+  ]
+}
