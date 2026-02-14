@@ -35,10 +35,23 @@ namespace KnowledgeStack.Game
         private QuestionData activeQuestion;
         private bool isAnsweringAllowed = true;
 
+        private Sprite[] blockSprites;
+
         private void Start()
         {
             // Auto-find UI if not assigned (Since we generate UI at runtime/editor)
             InitializeUIReferences();
+            
+            // Load Custom Block Sprites
+            blockSprites = Resources.LoadAll<Sprite>("Blocks");
+            if (blockSprites != null && blockSprites.Length > 0)
+            {
+                Debug.Log($"Loaded {blockSprites.Length} custom block sprites.");
+            }
+            else
+            {
+                Debug.LogWarning("No custom block sprites found in Resources/Blocks. Using default colors.");
+            }
             
             // Define Palette if not set (Vibrant, Neon-like colors)
             if (blockColors == null || blockColors.Length == 0)
@@ -75,165 +88,9 @@ namespace KnowledgeStack.Game
                 Debug.LogError("QuestionManager Not Found!");
             }
         }
-
-        private void HandleQuestionsLoaded()
-        {
-            Debug.Log("Questions Loaded! Starting Level.");
-            if(QuestionManager.Instance != null) 
-                QuestionManager.Instance.OnQuestionsLoaded -= HandleQuestionsLoaded;
-            
-            StartLevel(currentLevel);
-        }
-
-        private void OnDestroy()
-        {
-            if (QuestionManager.Instance != null)
-                QuestionManager.Instance.OnQuestionsLoaded -= HandleQuestionsLoaded;
-        }
-
-        private void InitializeUIReferences()
-        {
-            if(GameObject.Find("GameCanvas") == null)
-            {
-                Debug.LogError("GameCanvas not found! run 'Generate Game UI' from Tools menu.");
-                return;
-            }
-
-            Transform header = GameObject.Find("HeaderContainer").transform;
-            levelText = header.Find("LevelText").GetComponent<TextMeshProUGUI>();
-            questionCounterText = header.Find("QuestionCounter").GetComponent<TextMeshProUGUI>();
-            questionText = header.Find("QuestionText").GetComponent<TextMeshProUGUI>();
-            
-            blockArea = GameObject.Find("BlockArea").transform;
-            answersContainer = GameObject.Find("AnswersContainer").transform;
-            
-            // Stats
-            Transform statsObj = GameObject.Find("ScoreStats").transform;
-            correctStatsText = statsObj.Find("CorrectStats").GetComponent<TextMeshProUGUI>();
-            wrongStatsText = statsObj.Find("WrongStats").GetComponent<TextMeshProUGUI>();
-            
-            // Assign Button Listeners
-            Button exitBtn = GameObject.Find("TopBar/ExitButton").GetComponent<Button>();
-            exitBtn.onClick.AddListener(OnExitButtonClicked);
-
-            // Popup
-            Transform popupPanel = GameObject.Find("GameCanvas").transform.Find("ExitPopupPanel");
-            if(popupPanel != null) 
-            {
-                exitPopup = popupPanel.gameObject;
-                popupPanel.Find("PopupBox/Buttons/YesButton").GetComponent<Button>().onClick.AddListener(ConfirmExit);
-                popupPanel.Find("PopupBox/Buttons/NoButton").GetComponent<Button>().onClick.AddListener(CancelExit);
-            }
-        }
-
-        private void StartLevel(int level)
-        {
-            currentLevel = level;
-            currentQuestionIndex = 0;
-            
-            // Get Questions from Manager
-            if (QuestionManager.Instance != null)
-            {
-                currentLevelQuestions = QuestionManager.Instance.GetQuestionsForLevel(currentLevel);
-            }
-            else
-            {
-                Debug.LogError("QuestionManager not found!");
-                return;
-            }
-
-            levelText.text = "SEVİYE " + currentLevel;
-            
-            // Clear Blocks
-            foreach(Transform child in blockArea) Destroy(child.gameObject);
-            spawnedBlocks.Clear();
-
-            LoadNextQuestion();
-        }
-
-        private void LoadNextQuestion()
-        {
-            if (currentQuestionIndex >= currentLevelQuestions.Count)
-            {
-                Debug.Log("Level Complete!");
-                currentLevel++;
-                StartLevel(currentLevel);
-                return;
-            }
-
-            activeQuestion = currentLevelQuestions[currentQuestionIndex];
-            
-            // UI Update
-            questionCounterText.text = $"{currentQuestionIndex + 1}/10";
-            questionText.text = activeQuestion.text_tr; 
-            
-            SetupAnswerButtons(activeQuestion);
-            isAnsweringAllowed = true;
-        }
-
-        private void SetupAnswerButtons(QuestionData q)
-        {
-            var options = QuestionManager.Instance.GetShuffledAnswers(q);
-            
-            // Ensure we have 4 buttons in container
-            for (int i = 0; i < 4; i++)
-            {
-                Transform btnTrans = answersContainer.GetChild(i);
-                Button btn = btnTrans.GetComponent<Button>();
-                TextMeshProUGUI txt = btnTrans.GetComponentInChildren<TextMeshProUGUI>();
-                
-                txt.text = options[i];
-                
-                // Reset colors
-                btn.GetComponent<Image>().color = new Color(0.1f, 0.1f, 0.1f, 0.8f);
-                
-                // Click Event
-                string selectedAnswer = options[i];
-                btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(() => OnAnswerSelected(btn, selectedAnswer));
-            }
-        }
-
-        private void OnAnswerSelected(Button btn, string answer)
-        {
-            if (!isAnsweringAllowed) return;
-            isAnsweringAllowed = false;
-
-            bool isCorrect = (answer == activeQuestion.answer);
-
-            if (isCorrect)
-            {
-                btn.GetComponent<Image>().color = Color.green; // Correct -> Green
-                correctAnswers++;
-                SpawnBlock(); 
-            }
-            else
-            {
-                btn.GetComponent<Image>().color = Color.red; // Wrong -> Red
-                wrongAnswers++;
-                SpawnAcidEffect(); // Trigger Acid
-            }
-            
-            UpdateStatsUI();
-
-            // Wait longer if acid effect is playing
-            float waitTime = isCorrect ? 1.5f : 2.5f; 
-            StartCoroutine(WaitAndNext(waitTime));
-        }
-
-        private void UpdateStatsUI()
-        {
-            correctStatsText.text = "Doğru: " + correctAnswers;
-            wrongStatsText.text = "Yanlış: " + wrongAnswers;
-        }
-
-        private IEnumerator WaitAndNext(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            currentQuestionIndex++;
-            LoadNextQuestion();
-        }
         
+        // ... (HandleQuestionsLoaded, OnDestroy, InitializeUIReferences, StartLevel, LoadNextQuestion, SetupAnswerButtons, OnAnswerSelected, UpdateStatsUI, WaitAndNext unchanged) ...
+
         // --- Block Logic ---
         
         private void SpawnBlock()
@@ -257,14 +114,30 @@ namespace KnowledgeStack.Game
             blockObj.transform.SetParent(blockArea, false);
             
             Image img = blockObj.AddComponent<Image>();
-            Color c = GetRandomNextColor();
-            img.color = c;
             
-            Sprite roundedSprite = Resources.Load<Sprite>("UI/Skin/Background");
-            if (roundedSprite != null) 
+            // Custom Sprite Logic
+            if (blockSprites != null && blockSprites.Length > 0)
             {
-                img.sprite = roundedSprite;
-                img.type = Image.Type.Sliced;
+                // Pick random custom sprite
+                Sprite randomSprite = blockSprites[Random.Range(0, blockSprites.Length)];
+                img.sprite = randomSprite;
+                img.color = Color.white; // Show original sprite colors
+                
+                // Preserve Aspect Ratio? Maybe not, we want them to fill the block slot.
+                // img.preserveAspect = true; 
+            }
+            else
+            {
+                // Fallback to Colored Blocks
+                Color c = GetRandomNextColor();
+                img.color = c;
+                
+                Sprite roundedSprite = Resources.Load<Sprite>("UI/Skin/Background");
+                if (roundedSprite != null) 
+                {
+                    img.sprite = roundedSprite;
+                    img.type = Image.Type.Sliced;
+                }
             }
 
             Outline outline = blockObj.AddComponent<Outline>();

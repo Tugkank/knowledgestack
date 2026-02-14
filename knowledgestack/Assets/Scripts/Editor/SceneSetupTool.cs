@@ -29,6 +29,9 @@ namespace KnowledgeStack.Editor
                 // Generate UI
                 if(!Application.isPlaying) MainMenuGenerator.Generate();
                 
+                // Ensure EventSystem
+                CreateEventSystem();
+                
                 // Add Managers
                 SetupManagers();
                 
@@ -48,6 +51,9 @@ namespace KnowledgeStack.Editor
                 
                 // Generate UI
                 if(!Application.isPlaying) GameInterfaceGenerator.Generate();
+                
+                // Ensure EventSystem
+                CreateEventSystem();
                 
                 // Add GameController
                 if (GameObject.Find("GameController") == null)
@@ -97,6 +103,27 @@ namespace KnowledgeStack.Editor
             {
                 GameObject qObj = new GameObject("QuestionManager");
                 qObj.AddComponent<QuestionManager>();
+            }
+        }
+
+        private static void CreateEventSystem()
+        {
+            if (GameObject.FindObjectOfType<UnityEngine.EventSystems.EventSystem>() == null)
+            {
+                GameObject eventSystem = new GameObject("EventSystem");
+                eventSystem.AddComponent<UnityEngine.EventSystems.EventSystem>();
+
+                // Try to add New Input System Module (Reflection to avoid assembly reference errors if package missing)
+                System.Type inputModuleType = System.Type.GetType("UnityEngine.InputSystem.UI.InputSystemUIInputModule, Unity.InputSystem");
+                if (inputModuleType != null)
+                {
+                    eventSystem.AddComponent(inputModuleType);
+                }
+                else
+                {
+                    // Fallback to Legacy
+                    eventSystem.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+                }
             }
         }
     }
