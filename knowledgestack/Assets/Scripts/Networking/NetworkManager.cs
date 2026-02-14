@@ -11,7 +11,7 @@ namespace KnowledgeStack.Networking
         public static NetworkManager Instance { get; private set; }
 
         // Replace with your Ubuntu Server IP or Domain
-        private const string BASE_URL = "http://YOUR_UBUNTU_SERVER_IP/api"; 
+        private const string BASE_URL = "http://46.101.199.48/api"; 
 
         private void Awake()
         {
