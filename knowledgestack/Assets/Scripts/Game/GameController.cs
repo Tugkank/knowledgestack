@@ -89,7 +89,177 @@ namespace KnowledgeStack.Game
             }
         }
         
-        // ... (HandleQuestionsLoaded, OnDestroy, InitializeUIReferences, StartLevel, LoadNextQuestion, SetupAnswerButtons, OnAnswerSelected, UpdateStatsUI, WaitAndNext unchanged) ...
+        private void HandleQuestionsLoaded()
+        {
+            Debug.Log("Questions Loaded! Starting Level.");
+            if(QuestionManager.Instance != null) 
+                QuestionManager.Instance.OnQuestionsLoaded -= HandleQuestionsLoaded;
+            
+            StartLevel(currentLevel);
+        }
+
+        private void OnDestroy()
+        {
+            if (QuestionManager.Instance != null)
+                QuestionManager.Instance.OnQuestionsLoaded -= HandleQuestionsLoaded;
+        }
+
+        private void InitializeUIReferences()
+        {
+            if(GameObject.Find("GameCanvas") == null)
+            {
+                Debug.LogError("GameCanvas not found! run 'Generate Game UI' from Tools menu.");
+                return;
+            }
+
+            Transform header = GameObject.Find("HeaderContainer").transform;
+            levelText = header.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            questionCounterText = header.Find("QuestionCounter").GetComponent<TextMeshProUGUI>();
+            questionText = header.Find("QuestionText").GetComponent<TextMeshProUGUI>();
+            
+            blockArea = GameObject.Find("BlockArea").transform;
+            answersContainer = GameObject.Find("AnswersContainer").transform;
+            
+            // Stats
+            Transform statsObj = GameObject.Find("ScoreStats").transform;
+            correctStatsText = statsObj.Find("CorrectStats").GetComponent<TextMeshProUGUI>();
+            wrongStatsText = statsObj.Find("WrongStats").GetComponent<TextMeshProUGUI>();
+            
+            // Assign Button Listeners
+            var exitBtnObj = GameObject.Find("TopBar/ExitButton");
+            if(exitBtnObj != null)
+            {
+                exitBtnObj.GetComponent<Button>().onClick.AddListener(OnExitButtonClicked);
+            }
+
+            // Popup
+            Transform popupPanel = GameObject.Find("GameCanvas").transform.Find("ExitPopupPanel");
+            if(popupPanel != null) 
+            {
+                exitPopup = popupPanel.gameObject;
+                popupPanel.Find("PopupBox/Buttons/YesButton").GetComponent<Button>().onClick.AddListener(ConfirmExit);
+                popupPanel.Find("PopupBox/Buttons/NoButton").GetComponent<Button>().onClick.AddListener(CancelExit);
+            }
+        }
+
+        private void StartLevel(int level)
+        {
+            currentLevel = level;
+            currentQuestionIndex = 0;
+            correctAnswers = 0;
+            wrongAnswers = 0;
+            UpdateStatsUI();
+            
+            // Get Questions from Manager
+            if (QuestionManager.Instance != null)
+            {
+                currentLevelQuestions = QuestionManager.Instance.GetQuestionsForLevel(currentLevel);
+            }
+            else
+            {
+                Debug.LogError("QuestionManager not found!");
+                return;
+            }
+
+            levelText.text = "SEVİYE " + currentLevel;
+            
+            // Clear Blocks
+            foreach(Transform child in blockArea) Destroy(child.gameObject);
+            spawnedBlocks.Clear();
+
+            LoadNextQuestion();
+        }
+
+        private void LoadNextQuestion()
+        {
+            if (currentQuestionIndex >= currentLevelQuestions.Count)
+            {
+                if (correctAnswers >= 10)
+                {
+                    Debug.Log("Level Complete! Promoting to next level.");
+                    currentLevel++;
+                }
+                else
+                {
+                    Debug.Log($"Level Failed ({correctAnswers}/10 Correct). Retrying Level {currentLevel}...");
+                }
+                
+                StartLevel(currentLevel);
+                return;
+            }
+
+            activeQuestion = currentLevelQuestions[currentQuestionIndex];
+            
+            // UI Update
+            questionCounterText.text = $"{currentQuestionIndex + 1}/10";
+            questionText.text = activeQuestion.text_tr; 
+            
+            SetupAnswerButtons(activeQuestion);
+            isAnsweringAllowed = true;
+        }
+
+        private void SetupAnswerButtons(QuestionData q)
+        {
+            var options = QuestionManager.Instance.GetShuffledAnswers(q);
+            
+            // Ensure we have 4 buttons in container
+            for (int i = 0; i < 4; i++)
+            {
+                Transform btnTrans = answersContainer.GetChild(i);
+                Button btn = btnTrans.GetComponent<Button>();
+                TextMeshProUGUI txt = btnTrans.GetComponentInChildren<TextMeshProUGUI>();
+                
+                txt.text = options[i];
+                
+                // Reset colors
+                btn.GetComponent<Image>().color = new Color(0.1f, 0.1f, 0.1f, 0.8f);
+                
+                // Click Event
+                string selectedAnswer = options[i];
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(() => OnAnswerSelected(btn, selectedAnswer));
+            }
+        }
+
+        private void OnAnswerSelected(Button btn, string answer)
+        {
+            if (!isAnsweringAllowed) return;
+            isAnsweringAllowed = false;
+
+            bool isCorrect = (answer == activeQuestion.answer);
+
+            if (isCorrect)
+            {
+                btn.GetComponent<Image>().color = Color.green; // Correct -> Green
+                correctAnswers++;
+                SpawnBlock(); 
+            }
+            else
+            {
+                btn.GetComponent<Image>().color = Color.red; // Wrong -> Red
+                wrongAnswers++;
+                SpawnAcidEffect(); // Trigger Acid
+            }
+            
+            UpdateStatsUI();
+
+            // Wait longer if acid effect is playing
+            float waitTime = isCorrect ? 1.5f : 2.5f; 
+            StartCoroutine(WaitAndNext(waitTime));
+        }
+
+        private void UpdateStatsUI()
+        {
+            correctStatsText.text = "Doğru: " + correctAnswers;
+            wrongStatsText.text = "Yanlış: " + wrongAnswers;
+        }
+
+        private IEnumerator WaitAndNext(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            currentQuestionIndex++;
+            LoadNextQuestion();
+        }
 
         // --- Block Logic ---
         
