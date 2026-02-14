@@ -151,34 +151,39 @@ namespace KnowledgeStack.Editor
             GameObject box = new GameObject("PopupBox");
             box.transform.SetParent(popupPanel.transform, false);
             RectTransform boxRect = box.AddComponent<RectTransform>();
-            boxRect.sizeDelta = new Vector2(800, 500);
+            boxRect.sizeDelta = new Vector2(1000, 600); // Even wider box
             
             Image boxImg = box.AddComponent<Image>();
             boxImg.color = new Color(0.15f, 0.15f, 0.2f, 1f);
             box.AddComponent<Outline>().effectColor = Color.white;
 
             // Text
-            CreateText("Message", box.transform, "Oyundan çıkarsanız bu seviyeye tekrar başlamanız gerekmektedir.\n\nÇıkmak istiyor musunuz?", 45, Color.white).GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 50);
+            GameObject textObj = CreateText("Message", box.transform, "Oyundan çıkarsanız bu seviyeye tekrar başlamanız gerekmektedir.\n\nÇıkmak istiyor musunuz?", 40, Color.white);
+            RectTransform textRect = textObj.GetComponent<RectTransform>();
+            textRect.anchorMin = new Vector2(0.1f, 0.4f); // Top part of box
+            textRect.anchorMax = new Vector2(0.9f, 0.9f);
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
 
             // Buttons
             GameObject btnContainer = new GameObject("Buttons");
             btnContainer.transform.SetParent(box.transform, false);
             RectTransform btnRect = btnContainer.AddComponent<RectTransform>();
-            btnRect.anchorMin = new Vector2(0.5f, 0.2f);
-            btnRect.anchorMax = new Vector2(0.5f, 0.2f);
-            btnRect.sizeDelta = new Vector2(600, 100);
+            btnRect.anchorMin = new Vector2(0.5f, 0.15f); // Lowered
+            btnRect.anchorMax = new Vector2(0.5f, 0.15f);
+            btnRect.sizeDelta = new Vector2(900, 120);
             
             HorizontalLayoutGroup grp = btnContainer.AddComponent<HorizontalLayoutGroup>();
-            grp.spacing = 50;
+            grp.spacing = 100;
             grp.childAlignment = TextAnchor.MiddleCenter;
             grp.childControlWidth = false;
             grp.childControlHeight = false;
 
             GameObject yesBtn = CreateButton("YesButton", btnContainer.transform, "EVET", Color.red, 40);
-            yesBtn.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 80);
+            yesBtn.GetComponent<RectTransform>().sizeDelta = new Vector2(300, 90);
             
             GameObject noBtn = CreateButton("NoButton", btnContainer.transform, "HAYIR", Color.gray, 40);
-            noBtn.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 80);
+            noBtn.GetComponent<RectTransform>().sizeDelta = new Vector2(300, 90);
 
             popupPanel.SetActive(false); // Hide initially
         }

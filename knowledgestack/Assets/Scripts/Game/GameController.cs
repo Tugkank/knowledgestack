@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -36,6 +37,7 @@ namespace KnowledgeStack.Game
         private bool isAnsweringAllowed = true;
 
         private Sprite[] blockSprites;
+        private Sprite lastSprite;
 
         private void Start()
         {
@@ -46,7 +48,9 @@ namespace KnowledgeStack.Game
             blockSprites = Resources.LoadAll<Sprite>("Blocks");
             if (blockSprites != null && blockSprites.Length > 0)
             {
-                Debug.Log($"Loaded {blockSprites.Length} custom block sprites.");
+                string names = "";
+                foreach(var s in blockSprites) names += s.name + ", ";
+                Debug.Log($"Loaded {blockSprites.Length} custom block sprites: {names}");
             }
             else
             {
@@ -104,6 +108,10 @@ namespace KnowledgeStack.Game
                 QuestionManager.Instance.OnQuestionsLoaded -= HandleQuestionsLoaded;
         }
 
+        private Color defaultButtonColor = Color.white;
+
+        // ... (Start, HandleQuestionsLoaded, OnDestroy methods unchanged) ...
+
         private void InitializeUIReferences()
         {
             if(GameObject.Find("GameCanvas") == null)
@@ -112,18 +120,52 @@ namespace KnowledgeStack.Game
                 return;
             }
 
-            Transform header = GameObject.Find("HeaderContainer").transform;
-            levelText = header.Find("LevelText").GetComponent<TextMeshProUGUI>();
-            questionCounterText = header.Find("QuestionCounter").GetComponent<TextMeshProUGUI>();
-            questionText = header.Find("QuestionText").GetComponent<TextMeshProUGUI>();
+            // ... (Header finding logic unchanged) ...
             
-            blockArea = GameObject.Find("BlockArea").transform;
-            answersContainer = GameObject.Find("AnswersContainer").transform;
+            Transform header = GameObject.Find("HeaderContainer").transform;
+            if (header != null)
+            {
+                var lvl = header.Find("LevelText");
+                if(lvl) levelText = lvl.GetComponent<TextMeshProUGUI>();
+                
+                var qc = header.Find("QuestionCounter");
+                if(qc) questionCounterText = qc.GetComponent<TextMeshProUGUI>();
+                
+                var qt = header.Find("QuestionText");
+                if(qt) questionText = qt.GetComponent<TextMeshProUGUI>();
+            }
+            else Debug.LogError("HeaderContainer not found!");
+
+            var ba = GameObject.Find("BlockArea");
+            if(ba) blockArea = ba.transform;
+            else Debug.LogError("BlockArea not found!");
+            
+            var ac = GameObject.Find("AnswersContainer");
+            if(ac) 
+            {
+                answersContainer = ac.transform;
+                // Save default button color from the first button found
+                if(answersContainer.childCount > 0)
+                {
+                    var firstBtn = answersContainer.GetChild(0).GetComponent<Image>();
+                    if(firstBtn != null) defaultButtonColor = firstBtn.color;
+                }
+            }
+            else Debug.LogError("AnswersContainer not found!");
+            
+            // ... (Stats and Exit logic unchanged) ...
             
             // Stats
-            Transform statsObj = GameObject.Find("ScoreStats").transform;
-            correctStatsText = statsObj.Find("CorrectStats").GetComponent<TextMeshProUGUI>();
-            wrongStatsText = statsObj.Find("WrongStats").GetComponent<TextMeshProUGUI>();
+            var stats = GameObject.Find("ScoreStats");
+            if (stats != null)
+            {
+                var cs = stats.transform.Find("CorrectStats");
+                if(cs) correctStatsText = cs.GetComponent<TextMeshProUGUI>();
+                
+                var ws = stats.transform.Find("WrongStats");
+                if(ws) wrongStatsText = ws.GetComponent<TextMeshProUGUI>();
+            }
+            else Debug.LogError("ScoreStats not found!");
             
             // Assign Button Listeners
             var exitBtnObj = GameObject.Find("TopBar/ExitButton");
@@ -137,8 +179,11 @@ namespace KnowledgeStack.Game
             if(popupPanel != null) 
             {
                 exitPopup = popupPanel.gameObject;
-                popupPanel.Find("PopupBox/Buttons/YesButton").GetComponent<Button>().onClick.AddListener(ConfirmExit);
-                popupPanel.Find("PopupBox/Buttons/NoButton").GetComponent<Button>().onClick.AddListener(CancelExit);
+                var yesBtn = popupPanel.Find("PopupBox/Buttons/YesButton");
+                if(yesBtn) yesBtn.GetComponent<Button>().onClick.AddListener(ConfirmExit);
+                
+                var noBtn = popupPanel.Find("PopupBox/Buttons/NoButton");
+                if(noBtn) noBtn.GetComponent<Button>().onClick.AddListener(CancelExit);
             }
         }
 
@@ -161,17 +206,26 @@ namespace KnowledgeStack.Game
                 return;
             }
 
-            levelText.text = "SEVİYE " + currentLevel;
+            if(levelText != null) levelText.text = "SEVİYE " + currentLevel;
             
             // Clear Blocks
             foreach(Transform child in blockArea) Destroy(child.gameObject);
             spawnedBlocks.Clear();
+            
+            lastSprite = null;
+            lastColorIndex = -1;
 
             LoadNextQuestion();
         }
 
         private void LoadNextQuestion()
         {
+            if (currentLevelQuestions == null)
+            {
+                Debug.LogError("Current Level Questions list is null!");
+                return;
+            }
+
             if (currentQuestionIndex >= currentLevelQuestions.Count)
             {
                 if (correctAnswers >= 10)
@@ -191,8 +245,8 @@ namespace KnowledgeStack.Game
             activeQuestion = currentLevelQuestions[currentQuestionIndex];
             
             // UI Update
-            questionCounterText.text = $"{currentQuestionIndex + 1}/10";
-            questionText.text = activeQuestion.text_tr; 
+            if(questionCounterText != null) questionCounterText.text = $"{currentQuestionIndex + 1}/10";
+            if(questionText != null) questionText.text = activeQuestion.text_tr; 
             
             SetupAnswerButtons(activeQuestion);
             isAnsweringAllowed = true;
@@ -211,8 +265,8 @@ namespace KnowledgeStack.Game
                 
                 txt.text = options[i];
                 
-                // Reset colors
-                btn.GetComponent<Image>().color = new Color(0.1f, 0.1f, 0.1f, 0.8f);
+                // Reset colors to stored default
+                btn.GetComponent<Image>().color = defaultButtonColor;
                 
                 // Click Event
                 string selectedAnswer = options[i];
@@ -275,8 +329,8 @@ namespace KnowledgeStack.Game
             
             float blockHeight = areaHeight / 10f;
             
-            // Width calculation
-            float widthRatio = 0.9f - (stackIndex * 0.06f); 
+            // Width calculation (Standardized & Wider)
+            float widthRatio = 1.0f - (stackIndex * 0.05f); // Starts at 100% width, shrinks less aggressively
             float blockWidth = areaWidth * widthRatio;
 
             // Create Object
@@ -290,8 +344,20 @@ namespace KnowledgeStack.Game
             {
                 // Pick random custom sprite
                 Sprite randomSprite = blockSprites[Random.Range(0, blockSprites.Length)];
+                
+                // Prevent consecutive duplicates if we have enough options
+                if (blockSprites.Length > 1)
+                {
+                    while (randomSprite == lastSprite)
+                    {
+                        randomSprite = blockSprites[Random.Range(0, blockSprites.Length)];
+                    }
+                }
+                lastSprite = randomSprite;
+
                 img.sprite = randomSprite;
                 img.color = Color.white; // Show original sprite colors
+                Debug.Log($"Selected Block Sprite: {randomSprite.name}");
                 
                 // Preserve Aspect Ratio? Maybe not, we want them to fill the block slot.
                 // img.preserveAspect = true; 
@@ -442,11 +508,8 @@ namespace KnowledgeStack.Game
 
         private void ConfirmExit()
         {
-            // Return to Main Menu Logic
-            // UnityEngine.SceneManagement.SceneManager.LoadScene(0);
             Debug.Log("Exiting to Main Menu...");
-            // For now just close popup
-            if (exitPopup) exitPopup.SetActive(false);
+            SceneManager.LoadScene("MainMenu");
         }
 
         private void CancelExit()
