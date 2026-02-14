@@ -17,8 +17,8 @@ public class QuestionManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            LoadQuestions();
             LoadServedQuestions();
+            // Don't load local immediately, try server first in Start
         }
         else
         {
@@ -26,23 +26,66 @@ public class QuestionManager : MonoBehaviour
         }
     }
 
-    private void LoadQuestions()
+    // Event to notify when questions are ready
+    public event System.Action OnQuestionsLoaded;
+    public bool IsDataLoaded { get; private set; } = false;
+
+    private void Start()
+    {
+        InitializeQuestions();
+    }
+
+    private void InitializeQuestions()
     {
         questionsByDifficulty = new Dictionary<int, List<QuestionData>>();
         for(int i=1; i<=4; i++) questionsByDifficulty[i] = new List<QuestionData>();
 
+        // Try Network Load
+        if (KnowledgeStack.Networking.NetworkManager.Instance != null)
+        {
+            Debug.Log("Attempting to load questions from Server...");
+            KnowledgeStack.Networking.NetworkManager.Instance.GetQuestions(
+                (serverQuestions) => 
+                {
+                    Debug.Log($"Successfully loaded {serverQuestions.Count} questions from Server!");
+                    ProcessLoadedQuestions(serverQuestions);
+                },
+                (error) => 
+                {
+                    Debug.LogError($"Server Load Failed: {error}. Falling back to Local Resource.");
+                    LoadQuestionsFromLocal();
+                }
+            );
+        }
+        else
+        {
+            Debug.LogWarning("NetworkManager not found. Loading Local.");
+            LoadQuestionsFromLocal();
+        }
+    }
+
+    private void ProcessLoadedQuestions(List<QuestionData> questions)
+    {
+        foreach(var q in questions)
+        {
+            if(questionsByDifficulty.ContainsKey(q.difficulty))
+            {
+                questionsByDifficulty[q.difficulty].Add(q);
+            }
+        }
+        Debug.Log($"Processed Questions - D1:{questionsByDifficulty[1].Count}, D2:{questionsByDifficulty[2].Count}, D3:{questionsByDifficulty[3].Count}, D4:{questionsByDifficulty[4].Count}");
+        
+        IsDataLoaded = true;
+        OnQuestionsLoaded?.Invoke();
+    }
+
+    private void LoadQuestionsFromLocal()
+    {
         TextAsset jsonFile = Resources.Load<TextAsset>("questions");
         if (jsonFile != null)
         {
             QuestionList allData = JsonUtility.FromJson<QuestionList>(jsonFile.text);
-            foreach(var q in allData.questions)
-            {
-                if(questionsByDifficulty.ContainsKey(q.difficulty))
-                {
-                    questionsByDifficulty[q.difficulty].Add(q);
-                }
-            }
-            Debug.Log($"Loaded Questions - D1:{questionsByDifficulty[1].Count}, D2:{questionsByDifficulty[2].Count}, D3:{questionsByDifficulty[3].Count}, D4:{questionsByDifficulty[4].Count}");
+            ProcessLoadedQuestions(new List<QuestionData>(allData.questions));
         }
         else
         {

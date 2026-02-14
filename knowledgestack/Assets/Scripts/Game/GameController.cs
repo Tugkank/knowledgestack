@@ -57,7 +57,38 @@ namespace KnowledgeStack.Game
                 };
             }
 
+            // Wait for QuestionManager Data
+            if (QuestionManager.Instance != null)
+            {
+                if (QuestionManager.Instance.IsDataLoaded)
+                {
+                    StartLevel(currentLevel);
+                }
+                else
+                {
+                    Debug.Log("Waiting for Questions to load...");
+                    QuestionManager.Instance.OnQuestionsLoaded += HandleQuestionsLoaded;
+                }
+            }
+            else
+            {
+                Debug.LogError("QuestionManager Not Found!");
+            }
+        }
+
+        private void HandleQuestionsLoaded()
+        {
+            Debug.Log("Questions Loaded! Starting Level.");
+            if(QuestionManager.Instance != null) 
+                QuestionManager.Instance.OnQuestionsLoaded -= HandleQuestionsLoaded;
+            
             StartLevel(currentLevel);
+        }
+
+        private void OnDestroy()
+        {
+            if (QuestionManager.Instance != null)
+                QuestionManager.Instance.OnQuestionsLoaded -= HandleQuestionsLoaded;
         }
 
         private void InitializeUIReferences()

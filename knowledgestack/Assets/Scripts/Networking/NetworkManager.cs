@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 using System.Collections;
 using System;
 using System.Text;
+using System.Collections.Generic;
 
 namespace KnowledgeStack.Networking
 {
@@ -10,8 +11,9 @@ namespace KnowledgeStack.Networking
     {
         public static NetworkManager Instance { get; private set; }
 
-        // Replace with your Ubuntu Server IP or Domain
-        private const string BASE_URL = "http://YOUR_UBUNTU_SERVER_IP/api"; 
+        [Header("Server Configuration")]
+        public string serverIpAddress = "YOUR_SERVER_IP"; // User will set this in Inspector
+        private string BaseUrl => $"http://{serverIpAddress}:3000/api";
 
         private void Awake()
         {
@@ -26,60 +28,88 @@ namespace KnowledgeStack.Networking
             }
         }
 
+        #region Data Models
         [Serializable]
         public class UserData
         {
             public string userId;
             public int level;
             public int totalScore;
-            // Add list of served question IDs here
+            public List<int> servedQuestions;
         }
 
-        public void GetUserData(string userId, Action<UserData> onSuccess, Action<string> onError)
+        [Serializable]
+        public class QuestionWrapper
         {
-            StartCoroutine(GetUserDataRoutine(userId, onSuccess, onError));
+            public List<QuestionData> questions;
+        }
+        #endregion
+
+        #region API Calls
+
+        // 1. Login / Register (Syncs user data on start)
+        public void LoginOrRegister(string userId, Action<UserData> onSuccess, Action<string> onError)
+        {
+            StartCoroutine(PostRequest<UserData>("/auth/login", new { userId = userId }, onSuccess, onError));
         }
 
-        private IEnumerator GetUserDataRoutine(string userId, Action<UserData> onSuccess, Action<string> onError)
+        // 2. Get All Questions
+        public void GetQuestions(Action<List<QuestionData>> onSuccess, Action<string> onError)
         {
-            string url = $"{BASE_URL}/user/{userId}";
+            StartCoroutine(GetRequest<QuestionWrapper>("/game/questions", (wrapper) => 
+            {
+                onSuccess?.Invoke(wrapper.questions);
+            }, onError));
+        }
+
+        // 3. Sync Progress
+        public void SyncProgress(string userId, int level, int addedScore, int solvedQuestionId, Action onSuccess, Action<string> onError)
+        {
+            var payload = new 
+            { 
+                userId = userId, 
+                level = level, 
+                score = addedScore, // This might need to be 'totalScore' depending on server logic, assuming server adds it or we send delta
+                solvedQuestionId = solvedQuestionId 
+            };
+            StartCoroutine(PostRequest<object>("/game/sync", payload, (obj) => onSuccess?.Invoke(), onError));
+        }
+
+        #endregion
+
+        #region Helper Coroutines
+
+        private IEnumerator GetRequest<T>(string endpoint, Action<T> onSuccess, Action<string> onError)
+        {
+            string url = BaseUrl + endpoint;
             using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
-                // Add Auth Header here if needed (e.g. Bearer Token from Play Store)
-                // request.SetRequestHeader("Authorization", "Bearer " + token);
-
                 yield return request.SendWebRequest();
 
                 if (request.result == UnityWebRequest.Result.Success)
                 {
                     try
                     {
-                        UserData data = JsonUtility.FromJson<UserData>(request.downloadHandler.text);
+                        T data = JsonUtility.FromJson<T>(request.downloadHandler.text);
                         onSuccess?.Invoke(data);
                     }
                     catch (Exception e)
                     {
-                        onError?.Invoke("Parse Error: " + e.Message);
+                        onError?.Invoke($"Parse Error on {endpoint}: {e.Message}");
                     }
                 }
                 else
                 {
-                    onError?.Invoke(request.error);
+                    onError?.Invoke($"Network Error on {endpoint}: {request.error}");
                 }
             }
         }
 
-        // Example method to sync data to server
-        public void SyncUserData(UserData data, Action onSuccess, Action<string> onError)
+        private IEnumerator PostRequest<T>(string endpoint, object payload, Action<T> onSuccess, Action<string> onError)
         {
-            StartCoroutine(SyncUserDataRoutine(data, onSuccess, onError));
-        }
+            string url = BaseUrl + endpoint;
+            string json = JsonUtility.ToJson(payload);
 
-        private IEnumerator SyncUserDataRoutine(UserData data, Action onSuccess, Action<string> onError)
-        {
-            string url = $"{BASE_URL}/user/sync";
-            string json = JsonUtility.ToJson(data);
-            
             using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
             {
                 byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
@@ -91,13 +121,31 @@ namespace KnowledgeStack.Networking
 
                 if (request.result == UnityWebRequest.Result.Success)
                 {
-                    onSuccess?.Invoke();
+                    try
+                    {
+                        // If T is object, we validly ignore response body for simple success
+                        if (request.downloadHandler.text.Length > 0)
+                        {
+                            T data = JsonUtility.FromJson<T>(request.downloadHandler.text);
+                            onSuccess?.Invoke(data);
+                        }
+                        else
+                        {
+                            onSuccess?.Invoke(default);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        onError?.Invoke($"Parse Error on {endpoint}: {e.Message}");
+                    }
                 }
                 else
                 {
-                    onError?.Invoke(request.error);
+                    onError?.Invoke($"Network Error on {endpoint}: {request.error}");
                 }
             }
         }
+
+        #endregion
     }
 }

@@ -31,7 +31,7 @@ namespace KnowledgeStack.UI
             // If NetworkManager exists, try to fetch data
             if (NetworkManager.Instance != null)
             {
-                NetworkManager.Instance.GetUserData(currentUserId, 
+                NetworkManager.Instance.LoginOrRegister(currentUserId, 
                     (data) => {
                         UpdateUI(data.level, data.totalScore);
                     },
