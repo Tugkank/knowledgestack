@@ -52,7 +52,7 @@ public class QuestionManager : MonoBehaviour
                 },
                 (error) => 
                 {
-                    Debug.LogError($"Server Load Failed: {error}. Falling back to Local Resource.");
+                    Debug.LogWarning($"Server Unreachable ({error}). Switching to Offline Mode.");
                     LoadQuestionsFromLocal();
                 }
             );

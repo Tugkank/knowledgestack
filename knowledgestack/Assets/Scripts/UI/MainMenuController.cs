@@ -15,11 +15,29 @@ namespace KnowledgeStack.UI
 
         private void Start()
         {
-            // Find UI elements if not assigned (Since we generate them via Editor script)
+            // Find UI elements if not assigned
             if (levelText == null) levelText = GameObject.Find("LevelText")?.GetComponent<TextMeshProUGUI>();
             if (scoreText == null) scoreText = GameObject.Find("ScoreText")?.GetComponent<TextMeshProUGUI>();
+            
+            // Find Play Button
+            var playBtnObj = GameObject.Find("PlayButton");
+            if (playBtnObj != null)
+            {
+                var uBtn = playBtnObj.GetComponent<UnityEngine.UI.Button>();
+                if(uBtn != null)
+                {
+                    uBtn.onClick.RemoveAllListeners();
+                    uBtn.onClick.AddListener(StartGame);
+                }
+            }
 
             RefreshStats();
+        }
+
+        public void StartGame()
+        {
+            Debug.Log("Starting Game...");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Game"); // Ensure scene is named "Game"
         }
 
         public void RefreshStats()
@@ -36,7 +54,7 @@ namespace KnowledgeStack.UI
                         UpdateUI(data.level, data.totalScore);
                     },
                     (error) => {
-                        Debug.LogError("Failed to fetch stats: " + error);
+                        Debug.LogWarning("Could not fetch stats (Offline Mode): " + error);
                         // Fallback or offline mode could be handled here
                         UpdateUI(1, 0); // Default/Offline values
                     }
