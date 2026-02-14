@@ -12,7 +12,7 @@ namespace KnowledgeStack.Networking
         public static NetworkManager Instance { get; private set; }
 
         [Header("Server Configuration")]
-        public string serverIpAddress = "YOUR_SERVER_IP"; // User will set this in Inspector
+        public string serverIpAddress = "46.101.199.48"; 
         private string BaseUrl => $"http://{serverIpAddress}:3000/api";
 
         private void Awake()
