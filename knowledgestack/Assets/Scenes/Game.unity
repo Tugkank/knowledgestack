@@ -593,7 +593,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 71c58441cac3f2644951fc88dc690e06, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8660e04b87ef9c04191e29bc083edf8e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1589,6 +1589,8 @@ MonoBehaviour:
   exitPopup: {fileID: 1690897624}
   correctStatsText: {fileID: 1041911268}
   wrongStatsText: {fileID: 2116265752}
+  laserPrefab: {fileID: 5162910912013668194, guid: cf82839c411151342a7b2337bda9fb34, type: 3}
+  laserScale: 100
   blockColors: []
   blockDropSpeed: 1000
 --- !u!4 &894089981

@@ -20,6 +20,8 @@ namespace KnowledgeStack.Game
         public TextMeshProUGUI wrongStatsText;
 
         [Header("Game Settings")]
+        public GameObject laserPrefab; // Assign in Inspector
+        public float laserScale = 100f; // Scale multiplier for the prefab (useful if using world-space effects in UI)
         public Color[] blockColors; // 10 Colors will be set in inspector or code
         public float blockDropSpeed = 1000f;
 
@@ -41,6 +43,22 @@ namespace KnowledgeStack.Game
 
         private void Start()
         {
+            // Unity UI & 3D Particles Fix: Switch Canvas to Camera Mode
+            GameObject canvasObj = GameObject.Find("GameCanvas");
+            if (canvasObj != null)
+            {
+                Canvas cvs = canvasObj.GetComponent<Canvas>();
+                if (cvs.renderMode == RenderMode.ScreenSpaceOverlay)
+                {
+                    cvs.renderMode = RenderMode.ScreenSpaceCamera;
+                    cvs.worldCamera = Camera.main;
+                    cvs.planeDistance = 500f; // Far enough to fit large effects
+                    cvs.sortingLayerName = "Default";
+                    cvs.sortingOrder = 1;
+                    Debug.Log("Switched Canvas to Screen Space - Camera for Particle Support");
+                }
+            }
+
             // Auto-find UI if not assigned (Since we generate UI at runtime/editor)
             InitializeUIReferences();
             
@@ -292,7 +310,7 @@ namespace KnowledgeStack.Game
             {
                 btn.GetComponent<Image>().color = Color.red; // Wrong -> Red
                 wrongAnswers++;
-                SpawnAcidEffect(); // Trigger Acid
+                SpawnLaserEffect(); // Trigger Laser
             }
             
             UpdateStatsUI();
@@ -394,82 +412,142 @@ namespace KnowledgeStack.Game
             StartCoroutine(AnimateBlockDrop(rect, targetY));
         }
 
-        // --- Acid Effect Logic ---
+        // --- Laser Effect Logic ---
         
-        private void SpawnAcidEffect()
+        private void SpawnLaserEffect()
         {
-            if (spawnedBlocks.Count == 0) return; // Nothing to destroy
+            if (spawnedBlocks.Count == 0) return; 
 
-            GameObject targetBlock = spawnedBlocks.Peek(); // Don't pop yet
-            RectTransform targetRect = targetBlock.GetComponent<RectTransform>();
+            GameObject targetBlock = spawnedBlocks.Peek(); 
             
-            // Create Acid Blob
-            GameObject acidObj = new GameObject("AcidBlob");
-            acidObj.transform.SetParent(blockArea, false);
-            SetTopInHierarchy(acidObj);
+            GameObject laserObj;
 
-            Image img = acidObj.AddComponent<Image>();
-            img.color = new Color(0.2f, 1f, 0f, 0.9f); // Toxic Green
-            
-            // Use Knob/Circle sprite if possible
-            Sprite knob = Resources.Load<Sprite>("UI/Skin/Knob");
-            if(knob != null) img.sprite = knob;
+            if (laserPrefab != null)
+            {
+                // Use Custom Prefab
+                laserObj = Instantiate(laserPrefab, blockArea);
+                
+                // FORCE LAYER: Switch to UI layer to ensure Camera sees it
+                int uiLayer = LayerMask.NameToLayer("UI");
+                laserObj.layer = uiLayer;
+                foreach(Transform t in laserObj.GetComponentsInChildren<Transform>(true)) 
+                    t.gameObject.layer = uiLayer;
+                
+                // Fix Scale (World units vs UI pixels)
+                laserObj.transform.localScale = Vector3.one * laserScale;
+                
+                // Fix Z Position: Move slightly forward in Z (negative Z is closer to camera)
+                // Using 0 for X to center it, and -10f for Z to be in front of canvas but not clipped
+                Vector3 localPos = laserObj.transform.localPosition;
+                laserObj.transform.localPosition = new Vector3(0, localPos.y, -10f); 
 
-            RectTransform acidRect = acidObj.GetComponent<RectTransform>();
-            acidRect.sizeDelta = new Vector2(80, 80);
+                // --- CRITICAL FIX: FORCE SORTING ORDER ---
+                Renderer[] renderers = laserObj.GetComponentsInChildren<Renderer>(true); // Include inactive
+                foreach (var r in renderers)
+                {
+                    r.sortingOrder = 10; // Higher than Canvas (1)
+                }
+                
+                // Log for debugging
+                Debug.Log($"Spawned Custom Laser Prefab. Scale: {laserScale}, Layers Set to UI, Renderers: {renderers.Length}, WorldPos: {laserObj.transform.position}");
+            }
+            else
+            {
+                // Fallback: Procedural Laser
+                laserObj = new GameObject("LaserBeam");
+                laserObj.transform.SetParent(blockArea, false);
+                
+                Image img = laserObj.AddComponent<Image>();
+                img.color = new Color(1f, 0f, 0f, 1f); 
+                
+                Outline glow = laserObj.AddComponent<Outline>();
+                glow.effectColor = new Color(1f, 0.2f, 0.2f, 0.5f);
+                glow.effectDistance = new Vector2(4, 0);
+
+                RectTransform r = laserObj.GetComponent<RectTransform>();
+                r.sizeDelta = new Vector2(20, 150);
+            }
+
+            laserObj.transform.SetAsLastSibling(); // Ensure on top
+
+            // Position Logic (Common for both)
+            RectTransform laserRect = laserObj.GetComponent<RectTransform>();
             
+            // If prefab doesn't have RectTransform, add one (unlikely for UI but safe)
+            if(laserRect == null) laserRect = laserObj.AddComponent<RectTransform>();
+
             // Start from top, horizontally aligned with target block
-            float startY = (blockArea.GetComponent<RectTransform>().rect.height / 2f);
-            acidRect.anchoredPosition = new Vector2(0, startY);
+            float startY = (blockArea.GetComponent<RectTransform>().rect.height / 2f) + 150;
+            laserRect.anchoredPosition = new Vector2(0, startY);
 
-            StartCoroutine(AnimateAcidDrop(acidObj, targetBlock));
+            StartCoroutine(AnimateLaser(laserObj, targetBlock));
         }
 
-        private void SetTopInHierarchy(GameObject obj) { obj.transform.SetAsLastSibling(); }
-
-        private IEnumerator AnimateAcidDrop(GameObject acidObj, GameObject targetBlock)
+        private IEnumerator AnimateLaser(GameObject laserObj, GameObject targetBlock)
         {
-            if(targetBlock == null) { Destroy(acidObj); yield break; }
+            if(targetBlock == null) { Destroy(laserObj); yield break; }
             
-            RectTransform acidRect = acidObj.GetComponent<RectTransform>();
+            RectTransform laserRect = laserObj.GetComponent<RectTransform>();
             RectTransform targetRect = targetBlock.GetComponent<RectTransform>();
             float targetY = targetRect.anchoredPosition.y + (targetRect.rect.height/2f);
 
+            // Laser Speed
+            float speed = 2500f; // Restored Fast Speed
+
             // Drop Animation
-            while (acidRect.anchoredPosition.y > targetY)
+            while (laserRect.anchoredPosition.y > targetY)
             {
-                float newY = acidRect.anchoredPosition.y - (1500f * Time.deltaTime);
-                acidRect.anchoredPosition = new Vector2(0, newY);
+                float newY = laserRect.anchoredPosition.y - (speed * Time.deltaTime);
+                laserRect.anchoredPosition = new Vector2(0, newY);
                 yield return null;
             }
 
             // Impact!
-            // 1. Destroy Acid
-            Destroy(acidObj);
+            Destroy(laserObj);
+            
+            // Explosion Effect
+            SpawnExplosion(targetRect.anchoredPosition);
 
-            // 2. Melt Block Animation (Scale down? Fade?)
-            float duration = 0.5f;
+            if(targetBlock != null) Destroy(targetBlock);
+            if(spawnedBlocks.Count > 0) spawnedBlocks.Pop();
+        }
+
+        private void SpawnExplosion(Vector2 position)
+        {
+            GameObject explosion = new GameObject("Explosion");
+            explosion.transform.SetParent(blockArea, false);
+            explosion.transform.SetAsLastSibling();
+            
+            RectTransform rect = explosion.AddComponent<RectTransform>();
+            rect.anchoredPosition = position;
+            rect.sizeDelta = new Vector2(100, 100);
+            
+            Image img = explosion.AddComponent<Image>();
+            Sprite knob = Resources.Load<Sprite>("UI/Skin/Knob");
+            if(knob) img.sprite = knob;
+            img.color = Color.red;
+            
+            StartCoroutine(AnimateExplosion(explosion));
+        }
+
+        private IEnumerator AnimateExplosion(GameObject explosion)
+        {
+            float duration = 0.4f;
             float elapsed = 0;
-            Vector3 startScale = targetBlock.transform.localScale;
-            Image blockImg = targetBlock.GetComponent<Image>();
-            Color startColor = blockImg.color;
-            Color acidColor = new Color(0.2f, 1f, 0f, 0f); // Green transparent
-
-            while (elapsed < duration)
+            Vector3 startScale = Vector3.one;
+            Vector3 targetScale = Vector3.one * 3f;
+            Image img = explosion.GetComponent<Image>();
+            
+            while(elapsed < duration)
             {
-                if(targetBlock == null) break;
                 elapsed += Time.deltaTime;
                 float t = elapsed / duration;
                 
-                targetBlock.transform.localScale = Vector3.Lerp(startScale, Vector3.zero, t);
-                blockImg.color = Color.Lerp(startColor, acidColor, t);
+                explosion.transform.localScale = Vector3.Lerp(startScale, targetScale, t);
+                img.color = new Color(1f, 0f, 0f, 1f - t); // Fade out
                 yield return null;
             }
-
-            if(targetBlock != null) Destroy(targetBlock);
-            
-            // Remove from stack logic
-            if(spawnedBlocks.Count > 0) spawnedBlocks.Pop();
+            Destroy(explosion);
         }
 
         private Color GetRandomNextColor()
