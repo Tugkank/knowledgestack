@@ -38,3 +38,15 @@ LEVEL 1–20
 4 soru difficult 3
 
 5 soru difficult 4
+
+kafa
+gövde
+sağ kol
+sol kol
+sağ bacak
+sol bacak
+
+Darağacı ve ip sabit bir şekilde şıkların üstünde kalacak. LEVEL 1–20 arası her hatada sırasıyla şu parçalar belirginleşecek: kafa , gövde ve kollar , bacaklar. LEVEL 21–80 
+arası her hatada sırasıyla şu parçalar belirginleşecek: kafa , gövde ve kollar , sağ bacak , sol bacak , LEVEL 81–120 arası her hatada sırasıyla şu parçalar belirginleşecek:
+kafa , gövde , sağ kol , sol kol , sağ bacak , sol bacak. Yani belirttiğim seviye aralıklarında asılacak parçalar değişecek. Her parçanın yerine tam oturacağı ve farklı karakter skinleri
+kullanabileceğim şekilde , parçalarda kayma olmayacak şekilde kodlamayı ve sistemi kur ve beni yönlendir.

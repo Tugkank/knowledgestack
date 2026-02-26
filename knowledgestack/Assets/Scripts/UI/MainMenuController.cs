@@ -9,6 +9,7 @@ namespace KnowledgeStack.UI
         [Header("UI References")]
         public TextMeshProUGUI levelText;
         public TextMeshProUGUI scoreText;
+        public GameObject settingsPopup;
 
         // Mock User ID - In production, get this from Google Play Games / Game Center
         private string currentUserId = "mock_user_123"; 
@@ -31,7 +32,31 @@ namespace KnowledgeStack.UI
                 }
             }
 
+            // Find Settings Button
+            var settingsBtnObj = GameObject.Find("SettingsButton");
+            if (settingsBtnObj != null)
+            {
+                var sBtn = settingsBtnObj.GetComponent<UnityEngine.UI.Button>();
+                if(sBtn != null)
+                {
+                    sBtn.onClick.RemoveAllListeners();
+                    sBtn.onClick.AddListener(OpenSettings);
+                }
+            }
+
             RefreshStats();
+        }
+
+        public void OpenSettings()
+        {
+            if (settingsPopup != null)
+            {
+                settingsPopup.SetActive(true);
+            }
+            else
+            {
+                Debug.LogWarning("Settings Popup is not assigned in MainMenuController!");
+            }
         }
 
         public void StartGame()

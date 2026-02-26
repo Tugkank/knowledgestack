@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using KnowledgeStack.Game.Hangman;
+using KnowledgeStack.Core;
 
 namespace KnowledgeStack.Game
 {
@@ -13,84 +15,52 @@ namespace KnowledgeStack.Game
         public TextMeshProUGUI levelText;
         public TextMeshProUGUI questionCounterText;
         public TextMeshProUGUI questionText;
-        public Transform blockArea;
+        public Image timerBar;
+        public TextMeshProUGUI timerText;
         public Transform answersContainer;
         public GameObject exitPopup;
+        public GameObject settingsPopup;
         public TextMeshProUGUI correctStatsText;
         public TextMeshProUGUI wrongStatsText;
 
         [Header("Game Settings")]
-        public GameObject laserPrefab; // Assign in Inspector
-        public float laserScale = 100f; // Scale multiplier for the prefab (useful if using world-space effects in UI)
-        public Color[] blockColors; // 10 Colors will be set in inspector or code
-        public float blockDropSpeed = 1000f;
+        public float timePerQuestion = 15f;
+
+        [Header("Audio Settings")]
+        public AudioClip correctSound;
+        public AudioClip wrongSound;
+        public AudioClip winSound;
+        public AudioClip gameOverSound;
+
+        [Header("Button Sprites")]
+        public Sprite defaultButtonSprite;
+        public Sprite correctButtonSprite;
+        public Sprite wrongButtonSprite;
+
+        [Header("Hangman System")]
+        public HangmanManager hangmanManager;
 
         // State
         private int currentLevel = 1;
         private int currentQuestionIndex = 0; // 0 to 9
         private int correctAnswers = 0;
         private int wrongAnswers = 0;
-        private int lastColorIndex = -1;
-        
-        private Stack<GameObject> spawnedBlocks = new Stack<GameObject>();
         
         private List<QuestionData> currentLevelQuestions;
         private QuestionData activeQuestion;
         private bool isAnsweringAllowed = true;
-
-        private Sprite[] blockSprites;
-        private Sprite lastSprite;
+        private Coroutine timerCoroutine;
+        private AudioSource audioSource;
 
         private void Start()
         {
-            // Unity UI & 3D Particles Fix: Switch Canvas to Camera Mode
-            GameObject canvasObj = GameObject.Find("GameCanvas");
-            if (canvasObj != null)
-            {
-                Canvas cvs = canvasObj.GetComponent<Canvas>();
-                if (cvs.renderMode == RenderMode.ScreenSpaceOverlay)
-                {
-                    cvs.renderMode = RenderMode.ScreenSpaceCamera;
-                    cvs.worldCamera = Camera.main;
-                    cvs.planeDistance = 500f; // Far enough to fit large effects
-                    cvs.sortingLayerName = "Default";
-                    cvs.sortingOrder = 1;
-                    Debug.Log("Switched Canvas to Screen Space - Camera for Particle Support");
-                }
-            }
+            // Setup Audio Source
+            audioSource = gameObject.GetComponent<AudioSource>();
+            if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
 
             // Auto-find UI if not assigned (Since we generate UI at runtime/editor)
             InitializeUIReferences();
-            
-            // Load Custom Block Sprites
-            blockSprites = Resources.LoadAll<Sprite>("Blocks");
-            if (blockSprites != null && blockSprites.Length > 0)
-            {
-                string names = "";
-                foreach(var s in blockSprites) names += s.name + ", ";
-                Debug.Log($"Loaded {blockSprites.Length} custom block sprites: {names}");
-            }
-            else
-            {
-                Debug.LogWarning("No custom block sprites found in Resources/Blocks. Using default colors.");
-            }
-            
-            // Define Palette if not set (Vibrant, Neon-like colors)
-            if (blockColors == null || blockColors.Length == 0)
-            {
-                blockColors = new Color[] {
-                    new Color(1f, 0.2f, 0.2f), // Red
-                    new Color(0.2f, 1f, 0.2f), // Green
-                    new Color(0.2f, 0.2f, 1f), // Blue
-                    new Color(1f, 1f, 0.2f),   // Yellow
-                    new Color(1f, 0.2f, 1f),   // Magenta
-                    new Color(0.2f, 1f, 1f),   // Cyan
-                    new Color(1f, 0.5f, 0f),   // Orange
-                    new Color(0.5f, 0f, 1f),   // Purple
-                    new Color(0f, 1f, 0.5f),   // Mint
-                    new Color(1f, 0.2f, 0.6f)  // Pink
-                };
-            }
 
             // Wait for QuestionManager Data
             if (QuestionManager.Instance != null)
@@ -154,10 +124,6 @@ namespace KnowledgeStack.Game
             }
             else Debug.LogError("HeaderContainer not found!");
 
-            var ba = GameObject.Find("BlockArea");
-            if(ba) blockArea = ba.transform;
-            else Debug.LogError("BlockArea not found!");
-            
             var ac = GameObject.Find("AnswersContainer");
             if(ac) 
             {
@@ -190,6 +156,12 @@ namespace KnowledgeStack.Game
             if(exitBtnObj != null)
             {
                 exitBtnObj.GetComponent<Button>().onClick.AddListener(OnExitButtonClicked);
+            }
+
+            var settingsBtnObj = GameObject.Find("TopBar/SettingsButton");
+            if(settingsBtnObj != null)
+            {
+                settingsBtnObj.GetComponent<Button>().onClick.AddListener(OpenSettings);
             }
 
             // Popup
@@ -226,12 +198,7 @@ namespace KnowledgeStack.Game
 
             if(levelText != null) levelText.text = "SEVİYE " + currentLevel;
             
-            // Clear Blocks
-            foreach(Transform child in blockArea) Destroy(child.gameObject);
-            spawnedBlocks.Clear();
-            
-            lastSprite = null;
-            lastColorIndex = -1;
+            if (hangmanManager != null) hangmanManager.InitializeForLevel(currentLevel);
 
             LoadNextQuestion();
         }
@@ -246,15 +213,17 @@ namespace KnowledgeStack.Game
 
             if (currentQuestionIndex >= currentLevelQuestions.Count)
             {
-                if (correctAnswers >= 10)
+                // Reached end of questions for this level without getting fully hung
+                Debug.Log($"Level {currentLevel} Complete! Promoting to next level.");
+                
+                // Play Win Sound
+                if (winSound != null)
                 {
-                    Debug.Log("Level Complete! Promoting to next level.");
-                    currentLevel++;
+                    if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(winSound);
+                    else if (audioSource != null) audioSource.PlayOneShot(winSound, PlayerPrefs.GetFloat("SFXVolume", 1f));
                 }
-                else
-                {
-                    Debug.Log($"Level Failed ({correctAnswers}/10 Correct). Retrying Level {currentLevel}...");
-                }
+
+                currentLevel++;
                 
                 StartLevel(currentLevel);
                 return;
@@ -263,11 +232,12 @@ namespace KnowledgeStack.Game
             activeQuestion = currentLevelQuestions[currentQuestionIndex];
             
             // UI Update
-            if(questionCounterText != null) questionCounterText.text = $"{currentQuestionIndex + 1}/10";
+            if(questionCounterText != null) questionCounterText.text = $"{currentQuestionIndex + 1}/{currentLevelQuestions.Count}";
             if(questionText != null) questionText.text = activeQuestion.text_tr; 
             
             SetupAnswerButtons(activeQuestion);
             isAnsweringAllowed = true;
+            StartQuestionTimer();
         }
 
         private void SetupAnswerButtons(QuestionData q)
@@ -283,8 +253,12 @@ namespace KnowledgeStack.Game
                 
                 txt.text = options[i];
                 
-                // Reset colors to stored default
-                btn.GetComponent<Image>().color = defaultButtonColor;
+                // Reset sprite to default
+                if (defaultButtonSprite != null)
+                {
+                    btn.GetComponent<Image>().sprite = defaultButtonSprite;
+                }
+                btn.GetComponent<Image>().color = Color.white; // Ensure no tint is left
                 
                 // Click Event
                 string selectedAnswer = options[i];
@@ -297,27 +271,184 @@ namespace KnowledgeStack.Game
         {
             if (!isAnsweringAllowed) return;
             isAnsweringAllowed = false;
+            StopQuestionTimer();
 
             bool isCorrect = (answer == activeQuestion.answer);
 
+            // Get current SFX volume from Settings
+            float currentSFXVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+
             if (isCorrect)
             {
-                btn.GetComponent<Image>().color = Color.green; // Correct -> Green
+                // Only play generic 'correct' sound if it's NOT the last question of the level
+                if (currentQuestionIndex < currentLevelQuestions.Count)
+                {
+                    if (correctSound != null)
+                    {
+                        if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(correctSound);
+                        else if (audioSource != null) audioSource.PlayOneShot(correctSound, currentSFXVolume);
+                    }
+                }
+                
+                if (correctButtonSprite != null) btn.GetComponent<Image>().sprite = correctButtonSprite;
+                else btn.GetComponent<Image>().color = Color.green; // Fallback
+                
                 correctAnswers++;
-                SpawnBlock(); 
+                UpdateStatsUI();
+                StartCoroutine(WaitAndNext(1.5f));
             }
             else
             {
-                btn.GetComponent<Image>().color = Color.red; // Wrong -> Red
+                if (wrongButtonSprite != null) btn.GetComponent<Image>().sprite = wrongButtonSprite;
+                else btn.GetComponent<Image>().color = Color.red; // Fallback
+                
+                HighlightCorrectAnswer();
+
                 wrongAnswers++;
-                SpawnLaserEffect(); // Trigger Laser
+                UpdateStatsUI();
+
+                if (hangmanManager != null)
+                {
+                    bool isGameOver = hangmanManager.HandleMistake();
+                    if (isGameOver)
+                    {
+                        if (gameOverSound != null)
+                        {
+                            if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(gameOverSound);
+                            else if (audioSource != null) audioSource.PlayOneShot(gameOverSound, currentSFXVolume);
+                        }
+                        Debug.Log("Game Over! The character was fully hung.");
+                        StartCoroutine(LevelFailedRoutine());
+                        return; // Stop to prevent loading next question
+                    }
+                }
+                
+                // Play standard wrong sound if we didn't die
+                if (wrongSound != null)
+                {
+                    if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(wrongSound);
+                    else if (audioSource != null) audioSource.PlayOneShot(wrongSound, currentSFXVolume);
+                }
+                
+                StartCoroutine(WaitAndNext(2.5f)); // Wait longer on wrong answer to see part
             }
+        }
+
+        private IEnumerator LevelFailedRoutine()
+        {
+            Debug.Log($"Level Failed ({correctAnswers}/{currentLevelQuestions.Count} Correct). Retrying Level {currentLevel}...");
+            yield return new WaitForSeconds(2.5f); // Wait to see the full hangman before restart
+            StartLevel(currentLevel);
+        }
+
+        private void HighlightCorrectAnswer()
+        {
+            foreach (Transform child in answersContainer)
+            {
+                Button btn = child.GetComponent<Button>();
+                TextMeshProUGUI txt = child.GetComponentInChildren<TextMeshProUGUI>();
+                
+                if (btn != null && txt != null)
+                {
+                    if (txt.text == activeQuestion.answer)
+                    {
+                        if (correctButtonSprite != null) 
+                            btn.GetComponent<Image>().sprite = correctButtonSprite;
+                        else 
+                            btn.GetComponent<Image>().color = Color.green;
+                    }
+                }
+            }
+        }
+
+        // --- Timer Logic ---
+        private void StartQuestionTimer()
+        {
+            StopQuestionTimer(); // Ensure no previous timer is running
+            if (timerBar != null)
+            {
+                timerBar.fillAmount = 1f;
+                timerCoroutine = StartCoroutine(QuestionTimerRoutine());
+            }
+        }
+
+        private void StopQuestionTimer()
+        {
+            if (timerCoroutine != null)
+            {
+                StopCoroutine(timerCoroutine);
+                timerCoroutine = null;
+            }
+        }
+
+        private IEnumerator QuestionTimerRoutine()
+        {
+            float timeRemaining = timePerQuestion;
+
+            while (timeRemaining > 0)
+            {
+                yield return null;
+                timeRemaining -= Time.deltaTime;
+                
+                if (timerBar != null)
+                {
+                    timerBar.fillAmount = timeRemaining / timePerQuestion;
+                    // Optional: Change color to red when time is low
+                    if (timeRemaining < (timePerQuestion * 0.3f))
+                        timerBar.color = Color.Lerp(Color.red, Color.yellow, Mathf.PingPong(Time.time * 5, 1));
+                    else
+                        timerBar.color = Color.green;
+                }
+
+                if (timerText != null)
+                {
+                    timerText.text = Mathf.CeilToInt(timeRemaining).ToString();
+                }
+            }
+
+            TimeUp();
+        }
+
+        private void TimeUp()
+        {
+            if (!isAnsweringAllowed) return;
+            isAnsweringAllowed = false;
+
+            Debug.Log("Time is UP!");
             
+            float currentSFXVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+            
+            // Treat as wrong answer
+            wrongAnswers++;
             UpdateStatsUI();
 
-            // Wait longer if acid effect is playing
-            float waitTime = isCorrect ? 1.5f : 2.5f; 
-            StartCoroutine(WaitAndNext(waitTime));
+            if (timerBar != null) timerBar.fillAmount = 0;
+            if (timerText != null) timerText.text = "0";
+
+            if (hangmanManager != null)
+            {
+                bool isGameOver = hangmanManager.HandleMistake();
+                if (isGameOver)
+                {
+                    if (gameOverSound != null)
+                    {
+                        if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(gameOverSound);
+                        else if (audioSource != null) audioSource.PlayOneShot(gameOverSound, currentSFXVolume);
+                    }
+                    Debug.Log("Game Over! Time ran out and character was fully hung.");
+                    StartCoroutine(LevelFailedRoutine());
+                    return; 
+                }
+            }
+
+            // Play standard wrong sound if we didn't die
+            if (wrongSound != null)
+            {
+                if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(wrongSound);
+                else if (audioSource != null) audioSource.PlayOneShot(wrongSound, currentSFXVolume);
+            }
+
+            StartCoroutine(WaitAndNext(2.5f));
         }
 
         private void UpdateStatsUI()
@@ -331,251 +462,6 @@ namespace KnowledgeStack.Game
             yield return new WaitForSeconds(delay);
             currentQuestionIndex++;
             LoadNextQuestion();
-        }
-
-        // --- Block Logic ---
-        
-        private void SpawnBlock()
-        {
-            // Calculate based on STACK HEIGHT not Question Index to prevent gaps
-            int stackIndex = spawnedBlocks.Count; 
-            
-            if (stackIndex >= 10) return; // Cap at 10
-
-            float areaHeight = blockArea.GetComponent<RectTransform>().rect.height;
-            float areaWidth = blockArea.GetComponent<RectTransform>().rect.width; // 900
-            
-            float blockHeight = areaHeight / 10f;
-            
-            // Width calculation (Standardized & Wider)
-            float widthRatio = 1.0f - (stackIndex * 0.05f); // Starts at 100% width, shrinks less aggressively
-            float blockWidth = areaWidth * widthRatio;
-
-            // Create Object
-            GameObject blockObj = new GameObject("Block_" + stackIndex);
-            blockObj.transform.SetParent(blockArea, false);
-            
-            Image img = blockObj.AddComponent<Image>();
-            
-            // Custom Sprite Logic
-            if (blockSprites != null && blockSprites.Length > 0)
-            {
-                // Pick random custom sprite
-                Sprite randomSprite = blockSprites[Random.Range(0, blockSprites.Length)];
-                
-                // Prevent consecutive duplicates if we have enough options
-                if (blockSprites.Length > 1)
-                {
-                    while (randomSprite == lastSprite)
-                    {
-                        randomSprite = blockSprites[Random.Range(0, blockSprites.Length)];
-                    }
-                }
-                lastSprite = randomSprite;
-
-                img.sprite = randomSprite;
-                img.color = Color.white; // Show original sprite colors
-                Debug.Log($"Selected Block Sprite: {randomSprite.name}");
-                
-                // Preserve Aspect Ratio? Maybe not, we want them to fill the block slot.
-                // img.preserveAspect = true; 
-            }
-            else
-            {
-                // Fallback to Colored Blocks
-                Color c = GetRandomNextColor();
-                img.color = c;
-                
-                Sprite roundedSprite = Resources.Load<Sprite>("UI/Skin/Background");
-                if (roundedSprite != null) 
-                {
-                    img.sprite = roundedSprite;
-                    img.type = Image.Type.Sliced;
-                }
-            }
-
-            Outline outline = blockObj.AddComponent<Outline>();
-            outline.effectColor = new Color(1,1,1,0.5f);
-            outline.effectDistance = Vector2.one * 2;
-
-            RectTransform rect = blockObj.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(blockWidth, blockHeight);
-            
-            float targetY = (-areaHeight / 2f) + (stackIndex * blockHeight) + (blockHeight / 2f);
-            float startY = (areaHeight / 2f) + blockHeight; 
-            
-            rect.anchoredPosition = new Vector2(0, startY);
-            
-            // Add to stack
-            spawnedBlocks.Push(blockObj);
-
-            StartCoroutine(AnimateBlockDrop(rect, targetY));
-        }
-
-        // --- Laser Effect Logic ---
-        
-        private void SpawnLaserEffect()
-        {
-            if (spawnedBlocks.Count == 0) return; 
-
-            GameObject targetBlock = spawnedBlocks.Peek(); 
-            
-            GameObject laserObj;
-
-            if (laserPrefab != null)
-            {
-                // Use Custom Prefab
-                laserObj = Instantiate(laserPrefab, blockArea);
-                
-                // FORCE LAYER: Switch to UI layer to ensure Camera sees it
-                int uiLayer = LayerMask.NameToLayer("UI");
-                laserObj.layer = uiLayer;
-                foreach(Transform t in laserObj.GetComponentsInChildren<Transform>(true)) 
-                    t.gameObject.layer = uiLayer;
-                
-                // Fix Scale (World units vs UI pixels)
-                laserObj.transform.localScale = Vector3.one * laserScale;
-                
-                // Fix Z Position: Move slightly forward in Z (negative Z is closer to camera)
-                // Using 0 for X to center it, and -10f for Z to be in front of canvas but not clipped
-                Vector3 localPos = laserObj.transform.localPosition;
-                laserObj.transform.localPosition = new Vector3(0, localPos.y, -10f); 
-
-                // --- CRITICAL FIX: FORCE SORTING ORDER ---
-                Renderer[] renderers = laserObj.GetComponentsInChildren<Renderer>(true); // Include inactive
-                foreach (var r in renderers)
-                {
-                    r.sortingOrder = 10; // Higher than Canvas (1)
-                }
-                
-                // Log for debugging
-                Debug.Log($"Spawned Custom Laser Prefab. Scale: {laserScale}, Layers Set to UI, Renderers: {renderers.Length}, WorldPos: {laserObj.transform.position}");
-            }
-            else
-            {
-                // Fallback: Procedural Laser
-                laserObj = new GameObject("LaserBeam");
-                laserObj.transform.SetParent(blockArea, false);
-                
-                Image img = laserObj.AddComponent<Image>();
-                img.color = new Color(1f, 0f, 0f, 1f); 
-                
-                Outline glow = laserObj.AddComponent<Outline>();
-                glow.effectColor = new Color(1f, 0.2f, 0.2f, 0.5f);
-                glow.effectDistance = new Vector2(4, 0);
-
-                RectTransform r = laserObj.GetComponent<RectTransform>();
-                r.sizeDelta = new Vector2(20, 150);
-            }
-
-            laserObj.transform.SetAsLastSibling(); // Ensure on top
-
-            // Position Logic (Common for both)
-            RectTransform laserRect = laserObj.GetComponent<RectTransform>();
-            
-            // If prefab doesn't have RectTransform, add one (unlikely for UI but safe)
-            if(laserRect == null) laserRect = laserObj.AddComponent<RectTransform>();
-
-            // Start from top, horizontally aligned with target block
-            float startY = (blockArea.GetComponent<RectTransform>().rect.height / 2f) + 150;
-            laserRect.anchoredPosition = new Vector2(0, startY);
-
-            StartCoroutine(AnimateLaser(laserObj, targetBlock));
-        }
-
-        private IEnumerator AnimateLaser(GameObject laserObj, GameObject targetBlock)
-        {
-            if(targetBlock == null) { Destroy(laserObj); yield break; }
-            
-            RectTransform laserRect = laserObj.GetComponent<RectTransform>();
-            RectTransform targetRect = targetBlock.GetComponent<RectTransform>();
-            float targetY = targetRect.anchoredPosition.y + (targetRect.rect.height/2f);
-
-            // Laser Speed
-            float speed = 2500f; // Restored Fast Speed
-
-            // Drop Animation
-            while (laserRect.anchoredPosition.y > targetY)
-            {
-                float newY = laserRect.anchoredPosition.y - (speed * Time.deltaTime);
-                laserRect.anchoredPosition = new Vector2(0, newY);
-                yield return null;
-            }
-
-            // Impact!
-            Destroy(laserObj);
-            
-            // Explosion Effect
-            SpawnExplosion(targetRect.anchoredPosition);
-
-            if(targetBlock != null) Destroy(targetBlock);
-            if(spawnedBlocks.Count > 0) spawnedBlocks.Pop();
-        }
-
-        private void SpawnExplosion(Vector2 position)
-        {
-            GameObject explosion = new GameObject("Explosion");
-            explosion.transform.SetParent(blockArea, false);
-            explosion.transform.SetAsLastSibling();
-            
-            RectTransform rect = explosion.AddComponent<RectTransform>();
-            rect.anchoredPosition = position;
-            rect.sizeDelta = new Vector2(100, 100);
-            
-            Image img = explosion.AddComponent<Image>();
-            Sprite knob = Resources.Load<Sprite>("UI/Skin/Knob");
-            if(knob) img.sprite = knob;
-            img.color = Color.red;
-            
-            StartCoroutine(AnimateExplosion(explosion));
-        }
-
-        private IEnumerator AnimateExplosion(GameObject explosion)
-        {
-            float duration = 0.4f;
-            float elapsed = 0;
-            Vector3 startScale = Vector3.one;
-            Vector3 targetScale = Vector3.one * 3f;
-            Image img = explosion.GetComponent<Image>();
-            
-            while(elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                float t = elapsed / duration;
-                
-                explosion.transform.localScale = Vector3.Lerp(startScale, targetScale, t);
-                img.color = new Color(1f, 0f, 0f, 1f - t); // Fade out
-                yield return null;
-            }
-            Destroy(explosion);
-        }
-
-        private Color GetRandomNextColor()
-        {
-            int index = Random.Range(0, blockColors.Length);
-            // Retry if same as last (and we have enough colors)
-            if (blockColors.Length > 1) 
-            {
-                while (index == lastColorIndex)
-                {
-                    index = Random.Range(0, blockColors.Length);
-                }
-            }
-            lastColorIndex = index;
-            return blockColors[index];
-        }
-
-        private IEnumerator AnimateBlockDrop(RectTransform rect, float targetY)
-        {
-            while (rect.anchoredPosition.y > targetY)
-            {
-                float newY = rect.anchoredPosition.y - (blockDropSpeed * Time.deltaTime);
-                if (newY < targetY) newY = targetY;
-                
-                rect.anchoredPosition = new Vector2(0, newY);
-                yield return null;
-            }
-            rect.anchoredPosition = new Vector2(0, targetY);
         }
 
         // --- Exit Logic ---
@@ -593,6 +479,18 @@ namespace KnowledgeStack.Game
         private void CancelExit()
         {
             if (exitPopup) exitPopup.SetActive(false);
+        }
+
+        public void OpenSettings()
+        {
+            if (settingsPopup != null)
+            {
+                settingsPopup.SetActive(true);
+            }
+            else
+            {
+                Debug.LogWarning("Settings Popup is not assigned in GameController!");
+            }
         }
     }
 }

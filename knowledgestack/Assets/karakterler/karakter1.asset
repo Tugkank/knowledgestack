@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f1780df4ae46fa4dabab484c92f1eb8, type: 3}
+  m_Name: karakter1
+  m_EditorClassIdentifier: Assembly-CSharp::KnowledgeStack.Game.Hangman.HangmanCharacterSkin
+  skinName: karakter1
+  head: {fileID: 21300000, guid: 50b8425d8c655644c8cb042bb55774f1, type: 3}
+  body: {fileID: 21300000, guid: ce310e8dc8cbbaa41b4f8dbcb872827b, type: 3}
+  rightArm: {fileID: 21300000, guid: b872ac89a3c483541949c8020907ce9b, type: 3}
+  leftArm: {fileID: 21300000, guid: 344ac77a5f50cc244bb3d0ade8c76ebd, type: 3}
+  rightLeg: {fileID: 21300000, guid: f9b4b2fcc642a0c42884acd786ff7e36, type: 3}
+  leftLeg: {fileID: 21300000, guid: 6929af71944bf9040be93652492afa35, type: 3}
