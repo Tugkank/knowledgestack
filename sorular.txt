@@ -1807,7 +1807,7 @@
       "text_en": "Who is the author of the work 'Leviathan' in political philosophy?",
       "answer": "Thomas Hobbes",
       "wrong": ["John Locke", "J.J. Rousseau", "Machiavelli"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 202,
@@ -1816,7 +1816,7 @@
       "text_en": "What is it called when recession and high inflation occur together?",
       "answer": "Stagflasyon",
       "wrong": ["Deflasyon", "Devalüasyon", "Hiperenflasyon"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 203,
@@ -1825,7 +1825,7 @@
       "text_en": "The technique of using strong contrasts between light and dark in painting?",
       "answer": "Chiaroscuro",
       "wrong": ["Sfumato", "Fresko", "Empresyonizm"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 204,
@@ -1834,7 +1834,7 @@
       "text_en": "To whom does the 'Uncertainty Principle' belong in quantum mechanics?",
       "answer": "Werner Heisenberg",
       "wrong": ["Niels Bohr", "Erwin Schrödinger", "Max Planck"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 205,
@@ -1843,7 +1843,7 @@
       "text_en": "To whom do 'The Four Seasons' violin concertos belong?",
       "answer": "Antonio Vivaldi",
       "wrong": ["Paganini", "Handel", "Haydn"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 206,
@@ -1852,7 +1852,7 @@
       "text_en": "The edict that legalized Christianity in the Roman Empire?",
       "answer": "Milano Fermanı",
       "wrong": ["Nantes Fermanı", "Versay Antlaşması", "Magna Carta"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 207,
@@ -1861,7 +1861,7 @@
       "text_en": "When a country's imports exceed its exports?",
       "answer": "Cari Açık",
       "wrong": ["Bütçe Fazlası", "Resesyon", "Likidite Tuzağı"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 208,
@@ -1870,7 +1870,7 @@
       "text_en": "Which convention protects the inviolability of embassy buildings?",
       "answer": "Viyana Sözleşmesi",
       "wrong": ["Cenevre Protokolü", "Roma Statüsü", "Kyoto Protokolü"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 209,
@@ -1879,7 +1879,7 @@
       "text_en": "Which state of matter forms at absolute zero point?",
       "answer": "Bose-Einstein Yoğuşması",
       "wrong": ["Plazma", "Süper Akışkan", "Kristal Yapı"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 210,
@@ -1888,7 +1888,7 @@
       "text_en": "Which painter is among the founders of the 'Cubism' movement?",
       "answer": "Georges Braque",
       "wrong": ["Claude Monet", "Salvador Dali", "Edvard Munch"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 211,
@@ -1897,7 +1897,7 @@
       "text_en": "What is the baton used by an orchestra conductor called?",
       "answer": "Baguette",
       "wrong": ["Arşe", "Pena", "Metronom"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 212,
@@ -1906,7 +1906,7 @@
       "text_en": "Which sport is NOT part of the Modern Pentathlon?",
       "answer": "Bisiklet",
       "wrong": ["Eskrim", "Binicilik", "Atıcılık"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 213,
@@ -1915,7 +1915,7 @@
       "text_en": "The 1648 treaty considered the basis of the modern state concept?",
       "answer": "Vestfalya Antlaşması",
       "wrong": ["Utrecht Antlaşması", "Viyana Kongresi", "Trianon"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 214,
@@ -1924,7 +1924,7 @@
       "text_en": "According to Gresham's Law, 'Bad money ... good money'?",
       "answer": "Piyasadan kovar",
       "wrong": ["Değerlendirir", "Takip eder", "Üretir"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 215,
@@ -1933,7 +1933,7 @@
       "text_en": "The ancient civilization that invented paper?",
       "answer": "Çin",
       "wrong": ["Mısır", "Sümer", "Maya"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 216,
@@ -1942,7 +1942,7 @@
       "text_en": "Who are the scientists that discovered the DNA double helix structure?",
       "answer": "Watson ve Crick",
       "wrong": ["Fleming ve Pasteur", "Marie ve Pierre Curie", "Tesla ve Edison"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 217,
@@ -1951,7 +1951,7 @@
       "text_en": "The work considered England's unofficial anthem, composer unknown?",
       "answer": "Greensleeves",
       "wrong": ["Bolero", "Ave Maria", "Ode to Joy"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 218,
@@ -1960,7 +1960,7 @@
       "text_en": "What is the situation called when there is only one buyer in the market?",
       "answer": "Monopson",
       "wrong": ["Monopol", "Oligopol", "Kartel"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 219,
@@ -1969,7 +1969,7 @@
       "text_en": "To which period does Vermeer's 'Girl with a Pearl Earring' belong?",
       "answer": "Barok",
       "wrong": ["Rönesans", "Rokoko", "Realizm"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 220,
@@ -1978,7 +1978,7 @@
       "text_en": "Which is NOT one of the six founding countries of the EU?",
       "answer": "İngiltere",
       "wrong": ["Lüksemburg", "Hollanda", "Belçika"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 221,
@@ -1987,7 +1987,7 @@
       "text_en": "What is it called when a player wins all Grand Slams in the same year?",
       "answer": "Takvim Grand Slam",
       "wrong": ["Golden Slam", "Career Slam", "Master Slam"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 222,
@@ -1996,7 +1996,7 @@
       "text_en": "The astronomer who proved that the universe is expanding?",
       "answer": "Edwin Hubble",
       "wrong": ["Carl Sagan", "Stephen Hawking", "Kepler"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 223,
@@ -2005,7 +2005,7 @@
       "text_en": "The name of the work that laid the foundation of Keynesian economics?",
       "answer": "Genel Teori",
       "wrong": ["Ulusların Zenginliği", "Kapital", "İktisat Prensipleri"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 224,
@@ -2014,7 +2014,7 @@
       "text_en": "The first written treaty in history between Egypt and the Hittites?",
       "answer": "Kadeş Antlaşması",
       "wrong": ["Sèvres", "Mudanya", "Kallias Barışı"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 225,
@@ -2023,7 +2023,7 @@
       "text_en": "Which musical term means 'fast and lively'?",
       "answer": "Allegro",
       "wrong": ["Adagio", "Lento", "Andante"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 226,
@@ -2032,7 +2032,7 @@
       "text_en": "What is it called when one state officially recognizes another in diplomacy?",
       "answer": "De Jure Tanıma",
       "wrong": ["De Facto Tanıma", "Persona Grata", "Ultimatom"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 227,
@@ -2041,7 +2041,7 @@
       "text_en": "To which artist does the 'School of Athens' fresco belong?",
       "answer": "Raphael",
       "wrong": ["Michelangelo", "Botticelli", "Titian"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 228,
@@ -2050,7 +2050,7 @@
       "text_en": "What is it called when light shows both wave and particle properties?",
       "answer": "Dalga-Parçacık İkililiği",
       "wrong": ["Fotoelektrik Etki", "Kırınım", "Polarizasyon"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 229,
@@ -2059,7 +2059,7 @@
       "text_en": "The curve showing the inverse relationship between inflation and unemployment?",
       "answer": "Phillips Eğrisi",
       "wrong": ["Laffer Eğrisi", "Lorenz Eğrisi", "Arz Eğrisi"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 230,
@@ -2068,7 +2068,7 @@
       "text_en": "Who is considered the 'Father of Medicine' in Ancient Greece?",
       "answer": "Hipokrat",
       "wrong": ["Sokrat", "Platon", "Aristo"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 231,
@@ -2077,7 +2077,7 @@
       "text_en": "What is the introductory music of an opera called?",
       "answer": "Uvertür",
       "wrong": ["Arya", "Resitatif", "Final"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 232,
@@ -2086,7 +2086,7 @@
       "text_en": "Who said 'Power tends to corrupt, and absolute power corrupts absolutely'?",
       "answer": "Lord Acton",
       "wrong": ["Winston Churchill", "Machiavelli", "Thomas Jefferson"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 233,
@@ -2095,7 +2095,7 @@
       "text_en": "The color of the jersey worn by the general classification leader in the Tour de France?",
       "answer": "Sarı",
       "wrong": ["Yeşil", "Kırmızı", "Beyaz"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 234,
@@ -2104,7 +2104,7 @@
       "text_en": "Which element has atomic number 1 on the periodic table?",
       "answer": "Hidrojen",
       "wrong": ["Helyum", "Lityum", "Oksijen"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 235,
@@ -2113,7 +2113,7 @@
       "text_en": "The curve showing the relationship between tax rates and tax revenues?",
       "answer": "Laffer Eğrisi",
       "wrong": ["Engel Eğrisi", "Giffen Eğrisi", "IS-LM Eğrisi"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 236,
@@ -2122,7 +2122,7 @@
       "text_en": "The famous objects in Dali's 'The Persistence of Memory' painting?",
       "answer": "Eriyen Saatler",
       "wrong": ["Yanan Zürafalar", "Uçan Filler", "Mavi Atlar"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 237,
@@ -2131,7 +2131,7 @@
       "text_en": "The name of the group that overthrew the Tsarist regime during the Russian Revolution?",
       "answer": "Bolşevikler",
       "wrong": ["Menşevikler", "Jakobenler", "Girondenler"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 238,
@@ -2140,7 +2140,7 @@
       "text_en": "Which is a famous ballet work by Tchaikovsky?",
       "answer": "Kuğu Gölü",
       "wrong": ["Fındıkkıran", "Uyuyan Güzel", "Hepsi"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 239,
@@ -2149,7 +2149,7 @@
       "text_en": "Which international organization's main judicial organ is in The Hague?",
       "answer": "Uluslararası Adalet Divanı",
       "wrong": ["UNESCO", "WHO", "Interpol"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 240,
@@ -2158,7 +2158,7 @@
       "text_en": "The organelle known as the power plant of the cell?",
       "answer": "Mitokondri",
       "wrong": ["Ribozom", "Lizozom", "Golgi"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 241,
@@ -2167,7 +2167,7 @@
       "text_en": "What is the measure of disorder in a system called?",
       "answer": "Entropi",
       "wrong": ["Enerji", "Direnç", "Füzyon"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 242,
@@ -2176,7 +2176,7 @@
       "text_en": "Union formed by capital owners for profit?",
       "answer": "Kartel",
       "wrong": ["Sendika", "Vakıf", "Kooperatif"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 243,
@@ -2185,7 +2185,7 @@
       "text_en": "Judicial system established by the church in Middle Ages?",
       "answer": "Enkizisyon",
       "wrong": ["Feodalizm", "Rönesans", "Reform"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 244,
@@ -2194,7 +2194,7 @@
       "text_en": "What is the text of an opera or oratorio called?",
       "answer": "Libretto",
       "wrong": ["Arya", "Partisyon", "Koro"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 245,
@@ -2203,7 +2203,7 @@
       "text_en": "A picture made by engraving on a hard surface?",
       "answer": "Gravür",
       "wrong": ["Fresko", "Mozaik", "Eskiz"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 246,
@@ -2212,7 +2212,7 @@
       "text_en": "A system where the wealthy rule?",
       "answer": "Plütokrasi",
       "wrong": ["Oligarşi", "Teokrasi", "Monarşi"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 247,
@@ -2221,7 +2221,7 @@
       "text_en": "What are group 7A elements called in chemistry?",
       "answer": "Halojen",
       "wrong": ["Soygaz", "Metal", "Ametal"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 248,
@@ -2230,7 +2230,7 @@
       "text_en": "What are the tracks where bicycle races are held called?",
       "answer": "Velodrom",
       "wrong": ["Hipodrom", "Kort", "Ring"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 249,
@@ -2239,7 +2239,7 @@
       "text_en": "Buying and selling the same good from different markets?",
       "answer": "Arbitraj",
       "wrong": ["Enflasyon", "Spekülasyon", "İhracat"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 250,
@@ -2248,7 +2248,7 @@
       "text_en": "The famous wars between Athens and Sparta?",
       "answer": "Peloponnes",
       "wrong": ["Haçlı", "Pön", "Truva"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 251,
@@ -2257,7 +2257,7 @@
       "text_en": "Atoms with the same number of protons but different neutrons?",
       "answer": "İzotop",
       "wrong": ["İzobar", "Molekül", "Elektron"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 252,
@@ -2266,7 +2266,7 @@
       "text_en": "The technique of playing notes short and detached?",
       "answer": "Staccato",
       "wrong": ["Legato", "Vibrato", "Piano"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 253,
@@ -2275,7 +2275,7 @@
       "text_en": "The famous design school founded in Germany?",
       "answer": "Bauhaus",
       "wrong": ["Barok", "Modernizm", "Gotik"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 254,
@@ -2284,7 +2284,7 @@
       "text_en": "A system where administration is based on merit?",
       "answer": "Meritokrasi",
       "wrong": ["Demokrasi", "Otokrasi", "Bürokrasi"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 255,
@@ -2293,7 +2293,7 @@
       "text_en": "The speed at which an asset can be converted into cash?",
       "answer": "Likidite",
       "wrong": ["Maliyet", "Sermaye", "Kredi"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 256,
@@ -2302,7 +2302,7 @@
       "text_en": "Religious changes made in the church in the 16th century?",
       "answer": "Reform",
       "wrong": ["Rönesans", "İhtilal", "Fetih"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 257,
@@ -2311,7 +2311,7 @@
       "text_en": "What is the particle property of light called?",
       "answer": "Foton",
       "wrong": ["Dalga", "Işın", "Lazer"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 258,
@@ -2320,7 +2320,7 @@
       "text_en": "An athletics race consisting of ten different events?",
       "answer": "Dekatlon",
       "wrong": ["Maraton", "Triatlon", "Pentatlon"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 259,
@@ -2329,7 +2329,7 @@
       "text_en": "Governing the state according to religious rules?",
       "answer": "Teokrasi",
       "wrong": ["Laiklik", "Cumhuriyet", "Liberalizm"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 260,
@@ -2338,7 +2338,7 @@
       "text_en": "The highest pitch in the male voice?",
       "answer": "Tenor",
       "wrong": ["Bariton", "Bas", "Alto"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 261,
@@ -2347,7 +2347,7 @@
       "text_en": "The complete genetic code of an organism?",
       "answer": "Genom",
       "wrong": ["Hücre", "Doku", "Organ"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 262,
@@ -2356,7 +2356,7 @@
       "text_en": "Policy aimed at protecting domestic production?",
       "answer": "Korumacılık",
       "wrong": ["Liberalizm", "Sosyalizm", "Küreselleşme"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 263,
@@ -2365,7 +2365,7 @@
       "text_en": "The first civilization in Anatolia in the Ancient Age?",
       "answer": "Hititler",
       "wrong": ["Lidyalılar", "Urartular", "Sümerler"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 264,
@@ -2374,7 +2374,7 @@
       "text_en": "Oppressive, uniformist management approach?",
       "answer": "Totalitarizm",
       "wrong": ["Anarşizm", "Federalizm", "Pasifizm"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 265,
@@ -2383,7 +2383,7 @@
       "text_en": "Substance that speeds up reaction but doesn't change?",
       "answer": "Katalizör",
       "wrong": ["Asit", "Baz", "Element"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 266,
@@ -2392,7 +2392,7 @@
       "text_en": "The race to pass through gates in skiing?",
       "answer": "Slalom",
       "wrong": ["İniş", "Atlama", "Körling"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 267,
@@ -2401,7 +2401,7 @@
       "text_en": "Reduction of currency value by the government?",
       "answer": "Devalüasyon",
       "wrong": ["Enflasyon", "Büyüme", "Faiz"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 268,
@@ -2410,7 +2410,7 @@
       "text_en": "An artist considered a genius on their instrument?",
       "answer": "Virtüöz",
       "wrong": ["Solist", "Şef", "Besteci"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 269,
@@ -2419,7 +2419,7 @@
       "text_en": "Art movement that takes rulelessness as a rule?",
       "answer": "Dadaizm",
       "wrong": ["Kübizm", "Realizm", "Klasisizm"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 270,
@@ -2428,7 +2428,7 @@
       "text_en": "Administration carried out through civil servants?",
       "answer": "Bürokrasi",
       "wrong": ["Teknokrasi", "Teokrasi", "Aristokrasi"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 271,
@@ -2437,7 +2437,7 @@
       "text_en": "Emission of rays by elements like uranium?",
       "answer": "Radyoaktivite",
       "wrong": ["Elektrik", "Isı", "Mıknatıslanma"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 272,
@@ -2446,7 +2446,7 @@
       "text_en": "The partner with unlimited liability for debts?",
       "answer": "Komandite",
       "wrong": ["Komanditer", "Hissedar", "Müdür"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 273,
@@ -2455,7 +2455,7 @@
       "text_en": "Ancient civilization whose capital was Gordion?",
       "answer": "Frigler",
       "wrong": ["İyonlar", "Asurlar", "Persler"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 274,
@@ -2464,7 +2464,7 @@
       "text_en": "Sound hitting an obstacle and returning?",
       "answer": "Rezonans",
       "wrong": ["Ritim", "Akor", "Senkop"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 275,
@@ -2473,7 +2473,7 @@
       "text_en": "The art and science of conducting foreign relations?",
       "answer": "Diplomasi",
       "wrong": ["Strateji", "Lobicilik", "Propaganda"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 276,
@@ -2482,7 +2482,7 @@
       "text_en": "Separation of light into different wavelengths?",
       "answer": "Spektroskopi",
       "wrong": ["Kırılma", "Yansıma", "Soğurulma"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 277,
@@ -2491,7 +2491,7 @@
       "text_en": "Having only one seller in the market?",
       "answer": "Monopol",
       "wrong": ["Monopson", "Oligopol", "Kartel"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 278,
@@ -2500,7 +2500,7 @@
       "text_en": "Civilization that invented writing in Mesopotamia?",
       "answer": "Sümerler",
       "wrong": ["Babiller", "Akadlar", "Elamlar"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 279,
@@ -2509,7 +2509,7 @@
       "text_en": "The substance that gives plants their green color?",
       "answer": "Klorofil",
       "wrong": ["Glikoz", "Enzim", "Hormon"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 280,
@@ -2518,7 +2518,7 @@
       "text_en": "Race consisting of swimming, cycling, and running?",
       "answer": "Triatlon",
       "wrong": ["Maraton", "Pentatlon", "Dekatlon"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 281,
@@ -2527,7 +2527,7 @@
       "text_en": "The study of singing and reading notes?",
       "answer": "Solfej",
       "wrong": ["Dikte", "Armoni", "Kontrapuan"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 282,
@@ -2536,7 +2536,7 @@
       "text_en": "The art of decorating with paints on water?",
       "answer": "Ebru",
       "wrong": ["Hat", "Tezhip", "Minyatür"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 283,
@@ -2545,7 +2545,7 @@
       "text_en": "Separation of religion and state affairs?",
       "answer": "Laiklik",
       "wrong": ["Demokrasi", "Liberalizm", "Sosyalizm"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 284,
@@ -2554,7 +2554,7 @@
       "text_en": "Financial aid from the state to a specific sector?",
       "answer": "Sübvansiyon",
       "wrong": ["Vergi", "Fon", "Hibe"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 285,
@@ -2563,7 +2563,7 @@
       "text_en": "Ancient civilization famous for its hanging gardens?",
       "answer": "Babiller",
       "wrong": ["Sümerler", "Persler", "Asurlar"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 286,
@@ -2572,7 +2572,7 @@
       "text_en": "The boundary of the outermost layer of atmosphere?",
       "answer": "Stratopoz",
       "wrong": ["Mezopoz", "Tropopoz", "Ekzosfer"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 287,
@@ -2581,7 +2581,7 @@
       "text_en": "The technique of making polyphonic music?",
       "answer": "Polifoni",
       "wrong": ["Monofoni", "Melodi", "Ritim"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 288,
@@ -2590,7 +2590,7 @@
       "text_en": "The sketch drawing of a work?",
       "answer": "Eskiz",
       "wrong": ["Tablo", "Heykel", "Fresko"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 289,
@@ -2599,7 +2599,7 @@
       "text_en": "Internal free, external dependent structure?",
       "answer": "Federasyon",
       "wrong": ["Konfederasyon", "Üniter", "İmparatorluk"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 290,
@@ -2608,7 +2608,7 @@
       "text_en": "Paper issued by the state against borrowing?",
       "answer": "Bono",
       "wrong": ["Hisse", "Çek", "Poliçe"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 291,
@@ -2617,7 +2617,7 @@
       "text_en": "Italian community trading in Istanbul?",
       "answer": "Ceneviz",
       "wrong": ["Venedik", "Floransa", "Roma"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 292,
@@ -2626,7 +2626,7 @@
       "text_en": "The element that forms basic structure of bones?",
       "answer": "Kalsiyum",
       "wrong": ["Magnezyum", "Demir", "Çinko"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 293,
@@ -2635,7 +2635,7 @@
       "text_en": "Table sport played with a cue?",
       "answer": "Bilardo",
       "wrong": ["Tenis", "Bowling", "Dart"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 294,
@@ -2644,7 +2644,7 @@
       "text_en": "Medium-pitched male voice?",
       "answer": "Bariton",
       "wrong": ["Tenor", "Bas", "Soprano"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 295,
@@ -2653,7 +2653,7 @@
       "text_en": "Famous Mary and Jesus statue by Michelangelo?",
       "answer": "Piyeta",
       "wrong": ["Davut", "Musa", "Düşünen Adam"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 296,
@@ -2662,7 +2662,7 @@
       "text_en": "A state's authority over its own territory?",
       "answer": "Egemenlik",
       "wrong": ["Bağımsızlık", "Özgürlük", "Adalet"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 297,
@@ -2671,7 +2671,7 @@
       "text_en": "Document representing ownership of a company?",
       "answer": "Hisse",
       "wrong": ["Bono", "Tahvil", "Senet"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 298,
@@ -2680,7 +2680,7 @@
       "text_en": "The initial stage of cell division?",
       "answer": "İnterfaz",
       "wrong": ["Profaz", "Metafaz", "Anafaz"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 299,
@@ -2689,7 +2689,7 @@
       "text_en": "Combat sport branch performed with a sword?",
       "answer": "Eskrim",
       "wrong": ["Okçuluk", "Boks", "Judo"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 300,
@@ -2698,7 +2698,7 @@
       "text_en": "Fully authorized representative in diplomacy?",
       "answer": "Büyükelçi",
       "wrong": ["Konsolos", "Ataşe", "Kurye"],
-      "difficulty": 3, "time": 12
+      "difficulty": 3, "time": 15
     },
     {
       "id": 301,
@@ -2707,7 +2707,7 @@
       "text_en": "If an algorithm has O(n log n) complexity, what happens when n doubles?",
       "answer": "Yaklaşık 2 katından biraz fazla artar",
       "wrong": ["Tam 2 kat artar", "4 kat artar", "Değişmez"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 302,
@@ -2716,7 +2716,7 @@
       "text_en": "What is the smallest positive number divisible by 3, 4 and 5?",
       "answer": "60",
       "wrong": ["30", "45", "120"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 303,
@@ -2725,7 +2725,7 @@
       "text_en": "Schrödinger equation forms the basis of which branch of physics?",
       "answer": "Kuantum Mekaniği",
       "wrong": ["Termodinamik", "Optik", "Klasik Mekanik"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 304,
@@ -2734,7 +2734,7 @@
       "text_en": "What must be true about a matrix determinant to have an inverse?",
       "answer": "Sıfırdan farklı olmalıdır",
       "wrong": ["Sıfır olmalıdır", "Pozitif olmalıdır", "Negatif olmalıdır"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 305,
@@ -2743,7 +2743,7 @@
       "text_en": "Binary search works correctly on which data structure?",
       "answer": "Sıralı dizi",
       "wrong": ["Yığın", "Kuyruk", "Rastgele liste"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 306,
@@ -2752,7 +2752,7 @@
       "text_en": "The ratio of consecutive Fibonacci numbers approaches?",
       "answer": "Altın Oran",
       "wrong": ["Pi", "Euler Sayısı", "Karekök 3"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 307,
@@ -2761,7 +2761,7 @@
       "text_en": "The speed of light is most accurately measured in?",
       "answer": "Vakum",
       "wrong": ["Hava", "Su", "Cam"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 308,
@@ -2770,7 +2770,7 @@
       "text_en": "A function whose derivative is zero everywhere is?",
       "answer": "Sabit fonksiyon",
       "wrong": ["Lineer", "Parabolik", "Üstel"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 309,
@@ -2779,7 +2779,7 @@
       "text_en": "When inflation rises, fixed-rate bond prices generally?",
       "answer": "Düşer",
       "wrong": ["Artar", "Sabit kalır", "İkiye katlanır"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 310,
@@ -2788,7 +2788,7 @@
       "text_en": "If all vertices have even degree, what must exist?",
       "answer": "Euler çevrimi",
       "wrong": ["Ağaç yapı", "Hamilton yolu", "Köprü kenar"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
 
     {
@@ -2798,7 +2798,7 @@
       "text_en": "Stack data structure works on which principle?",
       "answer": "LIFO",
       "wrong": ["FIFO", "Random", "Priority"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 312,
@@ -2807,7 +2807,7 @@
       "text_en": "What is ln(e^5)?",
       "answer": "5",
       "wrong": ["e^5", "1", "0"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 313,
@@ -2816,7 +2816,7 @@
       "text_en": "Newton's second law is expressed as?",
       "answer": "F = m·a",
       "wrong": ["E = mc²", "pV = nRT", "V = IR"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 314,
@@ -2825,7 +2825,7 @@
       "text_en": "The sum of probabilities in a probability distribution equals?",
       "answer": "1",
       "wrong": ["0", "100", "n"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 315,
@@ -2834,7 +2834,7 @@
       "text_en": "Which is a collision resolution method in hash tables?",
       "answer": "Açık adresleme",
       "wrong": ["Binary search", "Stacking", "Recursion only"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
 
     {
@@ -2844,7 +2844,7 @@
       "text_en": "Sum of interior angles of a triangle?",
       "answer": "180",
       "wrong": ["90", "270", "360"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 317,
@@ -2853,7 +2853,7 @@
       "text_en": "The second law of thermodynamics expresses?",
       "answer": "Entropi artışı",
       "wrong": ["Enerji yoktan var olur", "Isı her zaman azalır", "Zaman durur"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 318,
@@ -2862,7 +2862,7 @@
       "text_en": "Derivative of the integral of a function equals?",
       "answer": "Fonksiyonun kendisi",
       "wrong": ["0", "1", "Ters fonksiyon"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 319,
@@ -2871,7 +2871,7 @@
       "text_en": "What does O(1) time complexity mean?",
       "answer": "Sabit zaman",
       "wrong": ["Lineer zaman", "Logaritmik zaman", "Üstel zaman"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 320,
@@ -2880,7 +2880,7 @@
       "text_en": "What does it mean for a number to be prime?",
       "answer": "1 ve kendisi dışında böleni olmaması",
       "wrong": ["Çift olması", "Tek olması", "Büyük olması"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
   "questions": [
@@ -2891,7 +2891,7 @@
       "text_en": "If right-hand and left-hand limits are equal, what does it indicate?",
       "answer": "Fonksiyon o noktada limitlidir",
       "wrong": ["Fonksiyon türevlenemez", "Fonksiyon süreksizdir", "Fonksiyon sabittir"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 322,
@@ -2900,7 +2900,7 @@
       "text_en": "Momentum is the product of which quantities?",
       "answer": "Kütle ve hız",
       "wrong": ["Kütle ve ivme", "Hız ve zaman", "Enerji ve hız"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 323,
@@ -2909,7 +2909,7 @@
       "text_en": "What is the main purpose of using an index in a database?",
       "answer": "Sorguları hızlandırmak",
       "wrong": ["Veri şifrelemek", "Depolama artırmak", "Tablo silmek"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 324,
@@ -2918,7 +2918,7 @@
       "text_en": "If determinant equals 0, what can be said about the matrix?",
       "answer": "Terslenemez",
       "wrong": ["Simetriktir", "Ortogonal", "Kare değildir"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 325,
@@ -2927,7 +2927,7 @@
       "text_en": "If supply increases while demand stays constant, price generally?",
       "answer": "Düşer",
       "wrong": ["Artar", "Sabit kalır", "İkiye katlanır"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 326,
@@ -2936,7 +2936,7 @@
       "text_en": "What happens if the base of a logarithmic function is 1?",
       "answer": "Tanımsız olur",
       "wrong": ["Lineer olur", "Üstel olur", "Sabit olur"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 327,
@@ -2945,7 +2945,7 @@
       "text_en": "What is the unit of electric current?",
       "answer": "Amper",
       "wrong": ["Volt", "Ohm", "Watt"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 328,
@@ -2954,7 +2954,7 @@
       "text_en": "What is the most critical part of recursion?",
       "answer": "Base case",
       "wrong": ["For döngüsü", "Switch-case", "Index yapısı"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 329,
@@ -2963,7 +2963,7 @@
       "text_en": "Can a function be both odd and even?",
       "answer": "Sadece sıfır fonksiyonu",
       "wrong": ["Evet her zaman", "Hayır asla", "Sadece lineer fonksiyon"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 330,
@@ -2972,7 +2972,7 @@
       "text_en": "According to classical relativity, what happens to mass at light speed?",
       "answer": "Sonsuza yaklaşır",
       "wrong": ["Sıfır olur", "Değişmez", "Yarıya iner"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 331,
@@ -2981,7 +2981,7 @@
       "text_en": "For a series to converge, its terms must approach?",
       "answer": "0",
       "wrong": ["1", "Sonsuz", "Negatif sonsuz"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 332,
@@ -2990,7 +2990,7 @@
       "text_en": "HTTP works at which layer?",
       "answer": "Uygulama katmanı",
       "wrong": ["Fiziksel", "Veri bağlantı", "Ağ katmanı"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 333,
@@ -2999,7 +2999,7 @@
       "text_en": "Square root of 2 is which type of number?",
       "answer": "İrrasyonel",
       "wrong": ["Rasyonel", "Tam sayı", "Doğal sayı"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 334,
@@ -3008,7 +3008,7 @@
       "text_en": "Pressure is calculated as?",
       "answer": "Kuvvet / Alan",
       "wrong": ["Alan / Kuvvet", "Kütle / Hacim", "Enerji / Zaman"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 335,
@@ -3017,7 +3017,7 @@
       "text_en": "Which SQL command is used to delete data?",
       "answer": "DELETE",
       "wrong": ["REMOVE", "DROP COLUMN", "CLEAR"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 336,
@@ -3026,7 +3026,7 @@
       "text_en": "Can absolute value of a number be negative?",
       "answer": "Hayır",
       "wrong": ["Evet", "Sadece sıfırda", "Sadece negatifte"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 337,
@@ -3035,7 +3035,7 @@
       "text_en": "Law of conservation of energy states that?",
       "answer": "Enerji yoktan var edilemez ve yok edilemez",
       "wrong": ["Enerji azalır", "Enerji artar", "Enerji kaybolur"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 338,
@@ -3044,7 +3044,7 @@
       "text_en": "O(log n) complexity is common in?",
       "answer": "Binary search",
       "wrong": ["Bubble sort", "Linear search", "Nested loops"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 339,
@@ -3053,7 +3053,7 @@
       "text_en": "Degree of a polynomial indicates?",
       "answer": "En yüksek üs",
       "wrong": ["Terim sayısı", "Sabit terim", "Katsayı toplamı"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 340,
@@ -3062,7 +3062,7 @@
       "text_en": "Watt is the unit of?",
       "answer": "Güç",
       "wrong": ["Enerji", "Akım", "Direnç"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 341,
@@ -3071,7 +3071,7 @@
       "text_en": "If the second derivative is positive at a point, the graph is?",
       "answer": "Yukarı doğru kavislidir (konveks)",
       "wrong": ["Aşağı doğru kavislidir", "Düz doğrudur", "Süreksizdir"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 342,
@@ -3080,7 +3080,7 @@
       "text_en": "What is the primary purpose of an IP address?",
       "answer": "Cihazları benzersiz tanımlamak",
       "wrong": ["Veri şifrelemek", "RAM artırmak", "Disk hızlandırmak"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 343,
@@ -3089,7 +3089,7 @@
       "text_en": "Kinetic energy formula is?",
       "answer": "1/2 m v²",
       "wrong": ["mgh", "F·d", "m·a"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 344,
@@ -3098,7 +3098,7 @@
       "text_en": "Factorial is defined for which numbers?",
       "answer": "0 ve pozitif tam sayılar",
       "wrong": ["Tüm reel sayılar", "Negatif sayılar", "Kesirli sayılar"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 345,
@@ -3107,7 +3107,7 @@
       "text_en": "What is the main function of DNS?",
       "answer": "Alan adını IP'ye çevirmek",
       "wrong": ["Veri şifrelemek", "Dosya sıkıştırmak", "Port yönetmek"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 346,
@@ -3116,7 +3116,7 @@
       "text_en": "For a sequence to be arithmetic, the difference between consecutive terms must be?",
       "answer": "Sabit",
       "wrong": ["Artan", "Azalan", "Rastgele"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 347,
@@ -3125,7 +3125,7 @@
       "text_en": "Ohm's Law is expressed as?",
       "answer": "V = I·R",
       "wrong": ["F = m·a", "E = mc²", "P = mgh"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 348,
@@ -3134,7 +3134,7 @@
       "text_en": "What does a memory leak mean in programming?",
       "answer": "Serbest bırakılmayan bellek",
       "wrong": ["RAM artışı", "CPU düşüşü", "Disk dolması"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 349,
@@ -3143,7 +3143,7 @@
       "text_en": "What is Sin²x + Cos²x?",
       "answer": "1",
       "wrong": ["0", "2", "x"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 350,
@@ -3152,7 +3152,7 @@
       "text_en": "Approximate gravitational acceleration on Earth?",
       "answer": "9.8",
       "wrong": ["8.1", "10.5", "12"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 351,
@@ -3161,7 +3161,7 @@
       "text_en": "How is the number of subsets calculated?",
       "answer": "2^n",
       "wrong": ["n^2", "n!", "n+1"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 352,
@@ -3170,7 +3170,7 @@
       "text_en": "What is the primary purpose of an API?",
       "answer": "Sistemler arası iletişim sağlamak",
       "wrong": ["Veri silmek", "RAM artırmak", "Donanım üretmek"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 353,
@@ -3179,7 +3179,7 @@
       "text_en": "Potential energy depends on?",
       "answer": "Kütle ve yükseklik",
       "wrong": ["Hız ve zaman", "Alan ve basınç", "Akım ve direnç"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 354,
@@ -3188,7 +3188,7 @@
       "text_en": "For a function to have an inverse, it must be?",
       "answer": "Birebir",
       "wrong": ["Sabit", "Çift", "Periyodik"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 355,
@@ -3197,7 +3197,7 @@
       "text_en": "TCP provides which feature?",
       "answer": "Güvenilir veri iletimi",
       "wrong": ["Şifreleme", "Grafik işleme", "Depolama"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 356,
@@ -3206,7 +3206,7 @@
       "text_en": "Area of a circle formula?",
       "answer": "πr²",
       "wrong": ["2πr", "πd", "r²"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 357,
@@ -3215,7 +3215,7 @@
       "text_en": "Sound waves are?",
       "answer": "Mekanik dalga",
       "wrong": ["Elektromanyetik", "Işık dalgası", "Statik dalga"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 358,
@@ -3224,7 +3224,7 @@
       "text_en": "Big-O notation expresses?",
       "answer": "Algoritmanın zaman/bellek karmaşıklığı",
       "wrong": ["Kod uzunluğu", "Program boyutu", "RAM miktarı"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 359,
@@ -3233,7 +3233,7 @@
       "text_en": "Pythagorean theorem formula?",
       "answer": "a² + b² = c²",
       "wrong": ["a+b=c", "2a=bc", "a²-b²=c²"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 360,
@@ -3242,7 +3242,7 @@
       "text_en": "Unit of frequency?",
       "answer": "Hertz",
       "wrong": ["Newton", "Joule", "Pascal"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
   "questions": [
@@ -3253,7 +3253,7 @@
       "text_en": "What condition must hold for a function to be continuous?",
       "answer": "Limit değeri fonksiyon değerine eşit olmalıdır",
       "wrong": ["Türev sıfır olmalı", "İkinci türev pozitif olmalı", "Fonksiyon çift olmalı"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 362,
@@ -3262,7 +3262,7 @@
       "text_en": "Most commonly used data format in REST architecture?",
       "answer": "JSON",
       "wrong": ["XML Schema", "Binary Stream", "Assembly"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 363,
@@ -3271,7 +3271,7 @@
       "text_en": "If acceleration is zero, net force is?",
       "answer": "Sıfır",
       "wrong": ["Maksimum", "Negatif", "Sabit artan"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 364,
@@ -3280,7 +3280,7 @@
       "text_en": "Variance measures?",
       "answer": "Verinin yayılımını",
       "wrong": ["Ortalama değeri", "Maksimum değeri", "Toplamı"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 365,
@@ -3289,7 +3289,7 @@
       "text_en": "What ensures only one thread accesses a critical section at a time?",
       "answer": "Mutex",
       "wrong": ["Loop", "Array", "Compiler"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 366,
@@ -3298,7 +3298,7 @@
       "text_en": "If derivative is negative, function is?",
       "answer": "Azalan",
       "wrong": ["Artan", "Sabit", "Periyodik"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 367,
@@ -3307,7 +3307,7 @@
       "text_en": "Unit of magnetic field?",
       "answer": "Tesla",
       "wrong": ["Volt", "Amper", "Ohm"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 368,
@@ -3316,7 +3316,7 @@
       "text_en": "In ACID, what does 'C' stand for?",
       "answer": "Consistency",
       "wrong": ["Control", "Capacity", "Code"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 369,
@@ -3325,7 +3325,7 @@
       "text_en": "If a set has n elements, number of permutations?",
       "answer": "n!",
       "wrong": ["2^n", "n^2", "n+1"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 370,
@@ -3334,7 +3334,7 @@
       "text_en": "Main difference between heat and temperature?",
       "answer": "Isı enerji transferidir",
       "wrong": ["İkisi aynıdır", "Sıcaklık enerjidir", "Isı bir kuvvettir"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 371,
@@ -3343,7 +3343,7 @@
       "text_en": "Geometric meaning of an integral?",
       "answer": "Alan",
       "wrong": ["Eğim", "Hacim", "Çevre"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 372,
@@ -3352,7 +3352,7 @@
       "text_en": "Purpose of version control?",
       "answer": "Kod değişikliklerini takip etmek",
       "wrong": ["RAM artırmak", "CPU hızlandırmak", "Şifre çözmek"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 373,
@@ -3361,7 +3361,7 @@
       "text_en": "Electric power formula?",
       "answer": "P = V·I",
       "wrong": ["F = m·a", "E = mc²", "V = I/R"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 374,
@@ -3370,7 +3370,7 @@
       "text_en": "For a sequence to be geometric, the ratio must be?",
       "answer": "Sabit",
       "wrong": ["Artan", "Azalan", "Rastgele"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 375,
@@ -3379,7 +3379,7 @@
       "text_en": "HTTPS differs from HTTP by?",
       "answer": "Şifreleme",
       "wrong": ["Hız", "RAM kullanımı", "Disk kapasitesi"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 376,
@@ -3388,7 +3388,7 @@
       "text_en": "If a graph crosses x-axis, it indicates?",
       "answer": "Kök vardır",
       "wrong": ["Maksimum vardır", "Türev sıfırdır", "Asimptot vardır"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 377,
@@ -3397,7 +3397,7 @@
       "text_en": "Light year measures?",
       "answer": "Mesafe",
       "wrong": ["Zaman", "Hız", "Enerji"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 378,
@@ -3406,7 +3406,7 @@
       "text_en": "Worst-case analysis shows?",
       "answer": "Maksimum çalışma süresi",
       "wrong": ["Ortalama süre", "Minimum süre", "Kod uzunluğu"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 379,
@@ -3415,7 +3415,7 @@
       "text_en": "If natural log of a number is 0, the number is?",
       "answer": "1",
       "wrong": ["0", "e", "10"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 380,
@@ -3424,7 +3424,7 @@
       "text_en": "Basic property of simple harmonic motion?",
       "answer": "Geri çağırıcı kuvvet yer değiştirme ile orantılıdır",
       "wrong": ["Hız sabittir", "İvme sıfırdır", "Enerji kaybolur"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
   "questions": [
@@ -3435,7 +3435,7 @@
       "text_en": "If a function is differentiable, what does it guarantee?",
       "answer": "Sürekli olduğunu",
       "wrong": ["İntegrallenemez olduğunu", "Çift olduğunu", "Periyodik olduğunu"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 382,
@@ -3444,7 +3444,7 @@
       "text_en": "What is the purpose of normalization in databases?",
       "answer": "Veri tekrarını azaltmak",
       "wrong": ["Veri şifrelemek", "Sorgu silmek", "Sunucu kapatmak"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 383,
@@ -3453,7 +3453,7 @@
       "text_en": "Ignoring air resistance, free fall acceleration equals?",
       "answer": "9.8 m/s²",
       "wrong": ["0", "1", "15"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 384,
@@ -3462,7 +3462,7 @@
       "text_en": "Absolute value of a complex number represents?",
       "answer": "Orijine olan uzaklık",
       "wrong": ["Gerçek kısmı", "Sanal kısmı", "Toplamı"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 385,
@@ -3471,7 +3471,7 @@
       "text_en": "What does deadlock mean in software?",
       "answer": "Süreçlerin birbirini beklemesi",
       "wrong": ["Bellek artışı", "Hızlanma", "Veri silinmesi"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 386,
@@ -3480,7 +3480,7 @@
       "text_en": "How is transpose of a matrix obtained?",
       "answer": "Satır ve sütun yer değiştirir",
       "wrong": ["Tüm elemanlar sıfırlanır", "Determinant alınır", "Terslenir"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 387,
@@ -3489,7 +3489,7 @@
       "text_en": "Unit of electric field?",
       "answer": "Volt/metre",
       "wrong": ["Tesla", "Joule", "Ohm"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 388,
@@ -3498,7 +3498,7 @@
       "text_en": "Average-case analysis represents?",
       "answer": "Beklenen çalışma süresi",
       "wrong": ["En kötü süre", "En iyi süre", "Kod uzunluğu"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 389,
@@ -3507,7 +3507,7 @@
       "text_en": "Having an asymptote means?",
       "answer": "Grafik bir doğruya yaklaşır",
       "wrong": ["Grafik kesişir", "Grafik sabittir", "Grafik yoktur"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 390,
@@ -3516,7 +3516,7 @@
       "text_en": "For work to be done, what is required?",
       "answer": "Kuvvet ve yer değiştirme",
       "wrong": ["Sadece hız", "Sadece zaman", "Sadece kütle"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 391,
@@ -3525,7 +3525,7 @@
       "text_en": "If log10(x)=2, x equals?",
       "answer": "100",
       "wrong": ["10", "20", "1000"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 392,
@@ -3534,7 +3534,7 @@
       "text_en": "What does a compiler do?",
       "answer": "Kaynak kodu makine koduna çevirir",
       "wrong": ["Kod çalıştırır", "RAM temizler", "Veri siler"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 393,
@@ -3543,7 +3543,7 @@
       "text_en": "Amplitude of a wave determines?",
       "answer": "Enerji miktarını",
       "wrong": ["Hızını", "Frekansını", "Dalga boyunu"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 394,
@@ -3552,7 +3552,7 @@
       "text_en": "If function limit goes to infinity, it indicates?",
       "answer": "Dikey asimptot olabilir",
       "wrong": ["Kök vardır", "Minimum vardır", "Sabit olur"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 395,
@@ -3561,7 +3561,7 @@
       "text_en": "How are blocks linked in blockchain?",
       "answer": "Kriptografik hash ile",
       "wrong": ["RAM ile", "SQL ile", "Manuel bağlantı ile"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 396,
@@ -3570,7 +3570,7 @@
       "text_en": "Norm of a vector represents?",
       "answer": "Uzunluk",
       "wrong": ["Yön", "Açı", "Toplam"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 397,
@@ -3579,7 +3579,7 @@
       "text_en": "In parallel resistors, voltage is?",
       "answer": "Aynıdır",
       "wrong": ["Toplanır", "Azalır", "Sıfır olur"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 398,
@@ -3588,7 +3588,7 @@
       "text_en": "Space complexity measures?",
       "answer": "Kullanılan bellek miktarı",
       "wrong": ["Çalışma süresi", "Kod uzunluğu", "CPU frekansı"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 399,
@@ -3597,7 +3597,7 @@
       "text_en": "Maximum number of roots of a polynomial equals?",
       "answer": "Derecesine",
       "wrong": ["Katsayı sayısına", "Sabit terime", "1"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     },
     {
       "id": 400,
@@ -3606,7 +3606,7 @@
       "text_en": "Einstein's E=mc² expresses?",
       "answer": "Kütle-enerji eşdeğerliği",
       "wrong": ["Hız yasası", "Momentum", "Basınç ilişkisi"],
-      "difficulty": 4, "time": 10
+      "difficulty": 4, "time": 15
     }
   ]
 }

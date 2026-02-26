@@ -10,9 +10,11 @@ namespace KnowledgeStack.UI
         public TextMeshProUGUI levelText;
         public TextMeshProUGUI scoreText;
         public GameObject settingsPopup;
+        public GameObject comingSoonPopup;
 
         // Mock User ID - In production, get this from Google Play Games / Game Center
         private string currentUserId = "mock_user_123"; 
+        private Coroutine popupCoroutine;
 
         private void Start()
         {
@@ -68,8 +70,17 @@ namespace KnowledgeStack.UI
         public void RefreshStats()
         {
             // First, show loading state
-            if(levelText) levelText.text = "SEVİYE: ...";
-            if(scoreText) scoreText.text = "PUAN: ...";
+            // First, show loading state
+            if (KnowledgeStack.Core.LanguageManager.CurrentLanguage == KnowledgeStack.Core.Language.Turkish)
+            {
+                if(levelText) levelText.text = "SEVİYE: ...";
+                if(scoreText) scoreText.text = "PUAN: ...";
+            }
+            else
+            {
+                if(levelText) levelText.text = "LEVEL: ...";
+                if(scoreText) scoreText.text = "SCORE: ...";
+            }
 
             // If NetworkManager exists, try to fetch data
             if (NetworkManager.Instance != null)
@@ -95,8 +106,41 @@ namespace KnowledgeStack.UI
 
         private void UpdateUI(int level, int score)
         {
-            if (levelText) levelText.text = $"SEVİYE: {level}";
-            if (scoreText) scoreText.text = $"PUAN: {score}";
+            if (KnowledgeStack.Core.LanguageManager.CurrentLanguage == KnowledgeStack.Core.Language.Turkish)
+            {
+                if (levelText) levelText.text = $"SEVİYE: {level}";
+                if (scoreText) scoreText.text = $"PUAN: {score}";
+            }
+            else
+            {
+                if (levelText) levelText.text = $"LEVEL: {level}";
+                if (scoreText) scoreText.text = $"SCORE: {score}";
+            }
+        }
+
+        // --- Coming Soon Popup Logic ---
+        public void OnComingSoonButtonClicked()
+        {
+            if (comingSoonPopup == null)
+            {
+                Debug.LogWarning("Coming Soon Popup is not assigned in MainMenuController!");
+                return;
+            }
+
+            if (popupCoroutine != null)
+            {
+                StopCoroutine(popupCoroutine);
+            }
+
+            popupCoroutine = StartCoroutine(ShowComingSoonRoutine());
+        }
+
+        private System.Collections.IEnumerator ShowComingSoonRoutine()
+        {
+            comingSoonPopup.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            comingSoonPopup.SetActive(false);
+            popupCoroutine = null;
         }
     }
 }

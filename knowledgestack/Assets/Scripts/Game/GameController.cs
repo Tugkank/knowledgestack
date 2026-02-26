@@ -20,6 +20,8 @@ namespace KnowledgeStack.Game
         public Transform answersContainer;
         public GameObject exitPopup;
         public GameObject settingsPopup;
+        public GameObject gameOverPopup;
+        public GameObject levelUpPopup;
         public TextMeshProUGUI correctStatsText;
         public TextMeshProUGUI wrongStatsText;
 
@@ -196,7 +198,17 @@ namespace KnowledgeStack.Game
                 return;
             }
 
-            if(levelText != null) levelText.text = "SEVİYE " + currentLevel;
+            if (levelText != null)
+            {
+                if (KnowledgeStack.Core.LanguageManager.CurrentLanguage == KnowledgeStack.Core.Language.Turkish)
+                {
+                    levelText.text = "SEVİYE " + currentLevel;
+                }
+                else
+                {
+                    levelText.text = "LEVEL " + currentLevel;
+                }
+            }
             
             if (hangmanManager != null) hangmanManager.InitializeForLevel(currentLevel);
 
@@ -223,17 +235,37 @@ namespace KnowledgeStack.Game
                     else if (audioSource != null) audioSource.PlayOneShot(winSound, PlayerPrefs.GetFloat("SFXVolume", 1f));
                 }
 
-                currentLevel++;
-                
-                StartLevel(currentLevel);
+                // Show Level Up Popup instead of auto-starting next level
+                if (levelUpPopup != null)
+                {
+                    levelUpPopup.SetActive(true);
+                }
+                else
+                {
+                    // Fallback if popup not assigned
+                    currentLevel++;
+                    StartLevel(currentLevel);
+                }
                 return;
             }
 
             activeQuestion = currentLevelQuestions[currentQuestionIndex];
             
             // UI Update
-            if(questionCounterText != null) questionCounterText.text = $"{currentQuestionIndex + 1}/{currentLevelQuestions.Count}";
-            if(questionText != null) questionText.text = activeQuestion.text_tr; 
+            if (questionCounterText != null) questionCounterText.text = $"{currentQuestionIndex + 1}/{currentLevelQuestions.Count}";
+            
+            if (questionText != null)
+            {
+                if (KnowledgeStack.Core.LanguageManager.CurrentLanguage == KnowledgeStack.Core.Language.Turkish)
+                {
+                    questionText.text = activeQuestion.text_tr;
+                }
+                else
+                {
+                    // Fallback to text_tr if text_en is empty, assuming QuestionData has text_en
+                    questionText.text = string.IsNullOrEmpty(activeQuestion.text_en) ? activeQuestion.text_tr : activeQuestion.text_en; 
+                }
+            }
             
             SetupAnswerButtons(activeQuestion);
             isAnsweringAllowed = true;
@@ -336,9 +368,18 @@ namespace KnowledgeStack.Game
 
         private IEnumerator LevelFailedRoutine()
         {
-            Debug.Log($"Level Failed ({correctAnswers}/{currentLevelQuestions.Count} Correct). Retrying Level {currentLevel}...");
-            yield return new WaitForSeconds(2.5f); // Wait to see the full hangman before restart
-            StartLevel(currentLevel);
+            Debug.Log($"Level Failed ({correctAnswers}/{currentLevelQuestions.Count} Correct).");
+            yield return new WaitForSeconds(2.5f); // Wait to see the full hangman
+            
+            if (gameOverPopup != null)
+            {
+                gameOverPopup.SetActive(true);
+            }
+            else
+            {
+                // Fallback
+                StartLevel(currentLevel);
+            }
         }
 
         private void HighlightCorrectAnswer()
@@ -453,8 +494,16 @@ namespace KnowledgeStack.Game
 
         private void UpdateStatsUI()
         {
-            correctStatsText.text = "Doğru: " + correctAnswers;
-            wrongStatsText.text = "Yanlış: " + wrongAnswers;
+            if (KnowledgeStack.Core.LanguageManager.CurrentLanguage == KnowledgeStack.Core.Language.Turkish)
+            {
+                if (correctStatsText != null) correctStatsText.text = "Doğru: " + correctAnswers;
+                if (wrongStatsText != null) wrongStatsText.text = "Yanlış: " + wrongAnswers;
+            }
+            else
+            {
+                if (correctStatsText != null) correctStatsText.text = "Correct: " + correctAnswers;
+                if (wrongStatsText != null) wrongStatsText.text = "Wrong: " + wrongAnswers;
+            }
         }
 
         private IEnumerator WaitAndNext(float delay)
@@ -491,6 +540,27 @@ namespace KnowledgeStack.Game
             {
                 Debug.LogWarning("Settings Popup is not assigned in GameController!");
             }
+        }
+
+        // --- Popup Action Methods ---
+        public void OnGameOverRetryClicked()
+        {
+            if (gameOverPopup != null) gameOverPopup.SetActive(false);
+            StartLevel(currentLevel); // Retry current level
+        }
+
+        public void OnLevelUpNextClicked()
+        {
+            if (levelUpPopup != null) levelUpPopup.SetActive(false);
+            
+            // Note: currentLevel was already incremented when the win condition was met.
+            StartLevel(currentLevel); 
+        }
+
+        public void GoToMainMenu()
+        {
+            Time.timeScale = 1f; // Ensure time is running
+            SceneManager.LoadScene("MainMenu"); // Adjust scene name if needed
         }
     }
 }
