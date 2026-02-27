@@ -305,7 +305,17 @@ namespace KnowledgeStack.Game
             isAnsweringAllowed = false;
             StopQuestionTimer();
 
-            bool isCorrect = (answer == activeQuestion.answer);
+            bool isCorrect = false;
+            
+            if (KnowledgeStack.Core.LanguageManager.CurrentLanguage == KnowledgeStack.Core.Language.Turkish)
+            {
+                isCorrect = (answer == activeQuestion.answer_tr);
+            }
+            else
+            {
+                string engAns = string.IsNullOrEmpty(activeQuestion.answer_eng) ? activeQuestion.answer_tr : activeQuestion.answer_eng;
+                isCorrect = (answer == engAns);
+            }
 
             // Get current SFX volume from Settings
             float currentSFXVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
@@ -391,7 +401,17 @@ namespace KnowledgeStack.Game
                 
                 if (btn != null && txt != null)
                 {
-                    if (txt.text == activeQuestion.answer)
+                    string correctAns = "";
+                    if (KnowledgeStack.Core.LanguageManager.CurrentLanguage == KnowledgeStack.Core.Language.Turkish)
+                    {
+                        correctAns = activeQuestion.answer_tr;
+                    }
+                    else
+                    {
+                        correctAns = string.IsNullOrEmpty(activeQuestion.answer_eng) ? activeQuestion.answer_tr : activeQuestion.answer_eng;
+                    }
+
+                    if (txt.text == correctAns)
                     {
                         if (correctButtonSprite != null) 
                             btn.GetComponent<Image>().sprite = correctButtonSprite;

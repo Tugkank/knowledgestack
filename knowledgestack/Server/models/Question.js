@@ -5,8 +5,10 @@ const QuestionSchema = new mongoose.Schema({
     category: { type: String, required: true },
     text_tr: { type: String, required: true },
     text_en: { type: String },
-    answer: { type: String, required: true },
-    wrong: [{ type: String }],
+    answer_tr: { type: String, required: true },
+    wrong_tr: [{ type: String }],
+    answer_eng: { type: String },
+    wrong_eng: [{ type: String }],
     difficulty: { type: Number, required: true, min: 1, max: 4 },
     time: { type: Number, default: 15 }
 });

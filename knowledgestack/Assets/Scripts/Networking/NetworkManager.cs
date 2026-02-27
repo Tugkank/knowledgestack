@@ -14,6 +14,7 @@ namespace KnowledgeStack.Networking
         [Header("Server Configuration")]
         public string serverIpAddress = "46.101.199.48"; 
         private string BaseUrl => $"http://{serverIpAddress}:3000/api";
+        private const string ApiKey = "knowledge_stack_secret_2024";
 
         private void Awake()
         {
@@ -84,6 +85,7 @@ namespace KnowledgeStack.Networking
             string url = BaseUrl + endpoint;
             using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
+                request.SetRequestHeader("x-api-key", ApiKey);
                 yield return request.SendWebRequest();
 
                 if (request.result == UnityWebRequest.Result.Success)
@@ -116,6 +118,7 @@ namespace KnowledgeStack.Networking
                 request.uploadHandler = new UploadHandlerRaw(bodyRaw);
                 request.downloadHandler = new DownloadHandlerBuffer();
                 request.SetRequestHeader("Content-Type", "application/json");
+                request.SetRequestHeader("x-api-key", ApiKey);
 
                 yield return request.SendWebRequest();
 

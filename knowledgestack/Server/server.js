@@ -3,63 +3,107 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
 const User = require('./models/User');
 const Question = require('./models/Question');
 
 const app = express();
+
+// 1. HTTP Security Headers
+app.use(helmet());
+
+// 2. Cross Origin Resource Sharing
 app.use(cors());
-app.use(bodyParser.json());
+
+// 3. Body Parser with Size Limits (Against Large Payload Attacks)
+app.use(bodyParser.json({ limit: '50kb' }));
+
+// 4. Rate Limiting (Against DDoS / Brute Force)
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 200, // Limit each IP to 200 requests per windowMs
+    message: 'Too many requests from this IP, please try again later.'
+});
+app.use('/api', apiLimiter);
+
+// 5. Basic API Key Middleware (Against Unauthorized Access)
+const APP_SECRET = process.env.APP_SECRET || 'knowledge_stack_secret_2024';
+const apiKeyAuth = (req, res, next) => {
+    const apiKey = req.headers['x-api-key'];
+    if (!apiKey || apiKey !== APP_SECRET) {
+        return res.status(401).json({ error: 'Unauthorized access. Invalid API Key.' });
+    }
+    next();
+};
 
 // MongoDB Connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/knowledgestack';
 mongoose.connect(MONGO_URI)
     .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.log(err));
+    .catch(err => console.log('MongoDB Connection Error:', err));
 
 // --- ROUTES ---
 
 // 1. LOGIN / SYNC USER
-app.post('/api/auth/login', async (req, res) => {
-    const { userId } = req.body;
-    if (!userId) return res.status(400).json({ error: 'UserID required' });
+app.post('/api/auth/login', apiKeyAuth, async (req, res) => {
+    // SECURITY: Force string conversion to prevent NoSQL Injection (e.g., passing {$gt: ""} )
+    const userId = String(req.body.userId);
+
+    if (!userId || userId === 'undefined') {
+        return res.status(400).json({ error: 'UserID required' });
+    }
 
     try {
-        let user = await User.findOne({ userId });
+        let user = await User.findOne({ userId: userId });
         if (!user) {
-            user = new User({ userId });
+            user = new User({ userId: userId });
             await user.save();
         }
         res.json(user);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Server Error' });
     }
 });
 
-// 2. GET QUESTIONS (Filtered by Level Distribution done inside Unity or here?)
-// For simplicity, let's serve ALL questions once and let Unity handle logic, 
-// OR serve specific batch. Let's serve ALL for local caching performance in game start.
-app.get('/api/game/questions', async (req, res) => {
+// 2. GET QUESTIONS
+app.get('/api/game/questions', apiKeyAuth, async (req, res) => {
     try {
         const questions = await Question.find({});
-        res.json({ questions }); // Matching Unity JSON format
+        res.json({ questions });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Server Error' });
     }
 });
 
 // 3. SYNC PROGRESS
-app.post('/api/game/sync', async (req, res) => {
-    const { userId, level, score, solvedQuestionId } = req.body;
+app.post('/api/game/sync', apiKeyAuth, async (req, res) => {
+    const userId = String(req.body.userId);
+    const level = Number(req.body.level);
+    const addedScore = Number(req.body.score);
+    const solvedQuestionId = Number(req.body.solvedQuestionId);
 
     try {
         const user = await User.findOne({ userId });
         if (!user) return res.status(404).json({ error: 'User not found' });
 
-        if (level) user.level = level;
-        if (score) user.totalScore = score; // Or increment? Usually sync total is safer
+        // SECURITY: Cheat Protection & Logic Validation
+        if (!isNaN(level) && level > user.level) {
+            // Cap max level skips per request to 1 to prevent instant max-level cheats
+            if (level <= user.level + 2) {
+                user.level = level;
+            }
+        }
 
-        if (solvedQuestionId && !user.servedQuestions.includes(solvedQuestionId)) {
+        if (!isNaN(addedScore) && addedScore > 0) {
+            // Prevent ridiculous scores per request (e.g. max 500 per question/level)
+            if (addedScore <= 1000) {
+                user.totalScore += addedScore;
+            }
+        }
+
+        if (!isNaN(solvedQuestionId) && !user.servedQuestions.includes(solvedQuestionId)) {
             user.servedQuestions.push(solvedQuestionId);
         }
 
@@ -68,9 +112,9 @@ app.post('/api/game/sync', async (req, res) => {
 
         res.json({ success: true, user });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Server Error' });
     }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Secure Server running on port ${PORT}`));

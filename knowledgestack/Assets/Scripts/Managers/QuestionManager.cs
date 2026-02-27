@@ -241,8 +241,30 @@ public class QuestionManager : MonoBehaviour
     public List<string> GetShuffledAnswers(QuestionData q)
     {
         List<string> answers = new List<string>();
-        answers.Add(q.answer);
-        answers.AddRange(q.wrong);
+        
+        if (KnowledgeStack.Core.LanguageManager.CurrentLanguage == KnowledgeStack.Core.Language.Turkish)
+        {
+            answers.Add(q.answer_tr);
+            if (q.wrong_tr != null)
+            {
+                answers.AddRange(q.wrong_tr);
+            }
+        }
+        else
+        {
+            // Null check for English fallbacks if JSON is incomplete
+            string correctEng = string.IsNullOrEmpty(q.answer_eng) ? q.answer_tr : q.answer_eng;
+            answers.Add(correctEng);
+            
+            if (q.wrong_eng != null && q.wrong_eng.Length > 0)
+            {
+                answers.AddRange(q.wrong_eng);
+            }
+            else if (q.wrong_tr != null)
+            {
+                answers.AddRange(q.wrong_tr); // Fallback to Turkish wrong answers
+            }
+        }
         
         for (int i = 0; i < answers.Count; i++) {
             string temp = answers[i];
