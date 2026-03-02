@@ -13,7 +13,7 @@ namespace KnowledgeStack.Networking
 
         [Header("Server Configuration")]
         public string serverIpAddress = "46.101.199.48"; 
-        private string BaseUrl => $"http://{serverIpAddress}:3000/api";
+        private string BaseUrl => $"https://knowledgestack.xyz/api";
         private const string ApiKey = "knowledge_stack_secret_2024";
 
         private void Awake()
