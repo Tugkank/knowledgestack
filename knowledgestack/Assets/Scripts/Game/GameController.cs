@@ -56,6 +56,9 @@ namespace KnowledgeStack.Game
 
         private void Start()
         {
+            // Load saved level or default to 1
+            currentLevel = PlayerPrefs.GetInt("CurrentLevel", 1);
+
             // Setup Audio Source
             audioSource = gameObject.GetComponent<AudioSource>();
             if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
@@ -177,6 +180,26 @@ namespace KnowledgeStack.Game
                 var noBtn = popupPanel.Find("PopupBox/Buttons/NoButton");
                 if(noBtn) noBtn.GetComponent<Button>().onClick.AddListener(CancelExit);
             }
+
+            // Level Up Popup Listeners
+            if (levelUpPopup != null)
+            {
+                var nextBtn = levelUpPopup.transform.Find("PopupBox/Buttons/YesButton");
+                if (nextBtn) nextBtn.GetComponent<Button>().onClick.AddListener(OnLevelUpNextClicked);
+
+                var menuBtn = levelUpPopup.transform.Find("PopupBox/Buttons/NoButton");
+                if (menuBtn) menuBtn.GetComponent<Button>().onClick.AddListener(GoToMainMenu);
+            }
+
+            // Game Over Popup Listeners
+            if (gameOverPopup != null)
+            {
+                var retryBtn = gameOverPopup.transform.Find("PopupBox/Buttons/YesButton");
+                if (retryBtn) retryBtn.GetComponent<Button>().onClick.AddListener(OnGameOverRetryClicked);
+
+                var menuBtn = gameOverPopup.transform.Find("PopupBox/Buttons/NoButton");
+                if (menuBtn) menuBtn.GetComponent<Button>().onClick.AddListener(GoToMainMenu);
+            }
         }
 
         private void StartLevel(int level)
@@ -228,6 +251,17 @@ namespace KnowledgeStack.Game
                 // Reached end of questions for this level without getting fully hung
                 Debug.Log($"Level {currentLevel} Complete! Promoting to next level.");
                 
+                // Sync to Server BEFORE incrementing locally 
+                // We send the level they just beat + 1 as their new server level. Score is arbitrary +150 for win.
+                if (KnowledgeStack.Networking.NetworkManager.Instance != null && activeQuestion != null)
+                {
+                    KnowledgeStack.Networking.NetworkManager.Instance.SyncProgress(
+                        "mock_user_123", currentLevel + 1, 150, activeQuestion.id,
+                        () => Debug.Log("Progress synced to server successfully!"),
+                        (err) => Debug.LogWarning("Failed to sync progress: " + err)
+                    );
+                }
+
                 // Play Win Sound
                 if (winSound != null)
                 {
@@ -573,7 +607,10 @@ namespace KnowledgeStack.Game
         {
             if (levelUpPopup != null) levelUpPopup.SetActive(false);
             
-            // Note: currentLevel was already incremented when the win condition was met.
+            currentLevel++; // Increment level here instead of earlier
+            PlayerPrefs.SetInt("CurrentLevel", currentLevel);
+            PlayerPrefs.Save();
+
             StartLevel(currentLevel); 
         }
 

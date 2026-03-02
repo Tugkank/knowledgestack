@@ -87,11 +87,14 @@ namespace KnowledgeStack.UI
             {
                 NetworkManager.Instance.LoginOrRegister(currentUserId, 
                     (data) => {
+                        PlayerPrefs.SetInt("CurrentLevel", data.level);
+                        PlayerPrefs.Save();
                         UpdateUI(data.level, data.totalScore);
                     },
                     (error) => {
                         Debug.LogWarning("Could not fetch stats (Offline Mode): " + error);
-                        // Fallback or offline mode could be handled here
+                        PlayerPrefs.SetInt("CurrentLevel", 1);
+                        PlayerPrefs.Save();
                         UpdateUI(1, 0); // Default/Offline values
                     }
                 );
@@ -100,6 +103,8 @@ namespace KnowledgeStack.UI
             {
                 // For testing without NetworkManager in scene, show dummy data
                 Debug.LogWarning("NetworkManager instance not found. Using dummy data.");
+                PlayerPrefs.SetInt("CurrentLevel", 5);
+                PlayerPrefs.Save();
                 UpdateUI(5, 1250); 
             }
         }

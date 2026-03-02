@@ -229,6 +229,16 @@ namespace KnowledgeStack.Editor
             RectTransform textRect = textObj.GetComponent<RectTransform>();
             SetFullScreen(textRect);
             
+            // Allow text to shrink if it's too long for the button
+            TextMeshProUGUI txtComp = textObj.GetComponent<TextMeshProUGUI>();
+            if (txtComp != null)
+            {
+                txtComp.enableAutoSizing = true;
+                txtComp.fontSizeMin = 20;
+                txtComp.fontSizeMax = fontSize;
+                txtComp.margin = new Vector4(20, 10, 20, 10); // Add some padding so it doesn't touch edges
+            }
+            
             return btnObj;
         }
 
