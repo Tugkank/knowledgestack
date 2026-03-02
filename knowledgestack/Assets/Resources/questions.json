@@ -74,7 +74,7 @@
       "answer_tr": "Arı",
       "wrong_tr": ["Sinek", "Kelebek", "Karınca"],
       "answer_eng": "Bee",
-      "wrong_eng": ["Fly", "Butterfly", "Ant"]
+      "wrong_eng": ["Fly", "Butterfly", "Ant"],
       "difficulty": 1, "time": 15
     },
     {
