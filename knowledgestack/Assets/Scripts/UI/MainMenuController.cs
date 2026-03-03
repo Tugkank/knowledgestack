@@ -12,9 +12,19 @@ namespace KnowledgeStack.UI
         public GameObject settingsPopup;
         public GameObject comingSoonPopup;
 
-        // Mock User ID - In production, get this from Google Play Games / Game Center
-        private string currentUserId = "mock_user_123"; 
+        // In production, get this from Google Play Games / Game Center
+        private string currentUserId; 
         private Coroutine popupCoroutine;
+
+        private void Awake()
+        {
+            if (!PlayerPrefs.HasKey("UserId"))
+            {
+                PlayerPrefs.SetString("UserId", SystemInfo.deviceUniqueIdentifier);
+                PlayerPrefs.Save();
+            }
+            currentUserId = PlayerPrefs.GetString("UserId");
+        }
 
         private void Start()
         {

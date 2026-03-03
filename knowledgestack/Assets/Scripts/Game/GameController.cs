@@ -252,15 +252,20 @@ namespace KnowledgeStack.Game
                 Debug.Log($"Level {currentLevel} Complete! Promoting to next level.");
                 
                 // Sync to Server BEFORE incrementing locally 
-                // We send the level they just beat + 1 as their new server level. Score is arbitrary +150 for win.
+                // We send the level they just beat + 1 as their new server level. Score is correctAnswers * 1 for win.
                 if (KnowledgeStack.Networking.NetworkManager.Instance != null && activeQuestion != null)
                 {
+                    string userId = PlayerPrefs.GetString("UserId", SystemInfo.deviceUniqueIdentifier);
                     KnowledgeStack.Networking.NetworkManager.Instance.SyncProgress(
-                        "mock_user_123", currentLevel + 1, 150, activeQuestion.id,
+                        userId, currentLevel + 1, correctAnswers, activeQuestion.id,
                         () => Debug.Log("Progress synced to server successfully!"),
                         (err) => Debug.LogWarning("Failed to sync progress: " + err)
                     );
                 }
+
+                // SAVE PROGRESS LOCALLY IMMEDIATELY
+                PlayerPrefs.SetInt("CurrentLevel", currentLevel + 1);
+                PlayerPrefs.Save();
 
                 // Play Win Sound
                 if (winSound != null)
