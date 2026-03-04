@@ -22,6 +22,7 @@ namespace KnowledgeStack.Game
         public GameObject settingsPopup;
         public GameObject gameOverPopup;
         public GameObject levelUpPopup;
+        public GameObject loadingPanel;
         public TextMeshProUGUI correctStatsText;
         public TextMeshProUGUI wrongStatsText;
 
@@ -77,6 +78,7 @@ namespace KnowledgeStack.Game
                 else
                 {
                     Debug.Log("Waiting for Questions to load...");
+                    if (loadingPanel != null) loadingPanel.SetActive(true);
                     QuestionManager.Instance.OnQuestionsLoaded += HandleQuestionsLoaded;
                 }
             }
@@ -92,6 +94,8 @@ namespace KnowledgeStack.Game
             if(QuestionManager.Instance != null) 
                 QuestionManager.Instance.OnQuestionsLoaded -= HandleQuestionsLoaded;
             
+            if (loadingPanel != null) loadingPanel.SetActive(false);
+
             StartLevel(currentLevel);
         }
 
@@ -181,6 +185,10 @@ namespace KnowledgeStack.Game
                 if(noBtn) noBtn.GetComponent<Button>().onClick.AddListener(CancelExit);
             }
 
+            // Loading Panel
+            Transform loadPanel = GameObject.Find("GameCanvas").transform.Find("LoadingPanel");
+            if(loadPanel != null) loadingPanel = loadPanel.gameObject;
+
             // Level Up Popup Listeners
             if (levelUpPopup != null)
             {
@@ -265,6 +273,8 @@ namespace KnowledgeStack.Game
 
                 // SAVE PROGRESS LOCALLY IMMEDIATELY
                 PlayerPrefs.SetInt("CurrentLevel", currentLevel + 1);
+                int currentTotalScore = PlayerPrefs.GetInt("TotalScore", 0);
+                PlayerPrefs.SetInt("TotalScore", currentTotalScore + correctAnswers);
                 PlayerPrefs.Save();
 
                 // Play Win Sound

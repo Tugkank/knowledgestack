@@ -98,14 +98,18 @@ namespace KnowledgeStack.UI
                 NetworkManager.Instance.LoginOrRegister(currentUserId, 
                     (data) => {
                         PlayerPrefs.SetInt("CurrentLevel", data.level);
+                        // Store best score only if server is higher, or server overwrites local (depends on strictness). 
+                        // For now we trust server as source of truth when online.
+                        PlayerPrefs.SetInt("TotalScore", data.totalScore); 
                         PlayerPrefs.Save();
                         UpdateUI(data.level, data.totalScore);
                     },
                     (error) => {
                         Debug.LogWarning("Could not fetch stats (Offline Mode): " + error);
-                        PlayerPrefs.SetInt("CurrentLevel", 1);
-                        PlayerPrefs.Save();
-                        UpdateUI(1, 0); // Default/Offline values
+                        // OFFLINE MODE / API FAILED: DO NOT reset to 1! Use the cached local values so player doesn't lose progress.
+                        int savedLevel = PlayerPrefs.GetInt("CurrentLevel", 1);
+                        int savedScore = PlayerPrefs.GetInt("TotalScore", 0);
+                        UpdateUI(savedLevel, savedScore); 
                     }
                 );
             }

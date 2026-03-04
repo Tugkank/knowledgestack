@@ -137,6 +137,8 @@ namespace KnowledgeStack.Editor
             Debug.Log("Game Interface Generated!");
         }
 
+
+
         private static void GenerateExitPopup(Transform parent)
         {
             GameObject popupPanel = new GameObject("ExitPopupPanel");
