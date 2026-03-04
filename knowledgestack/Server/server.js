@@ -20,6 +20,10 @@ app.use(cors());
 // 3. Body Parser with Size Limits (Against Large Payload Attacks)
 app.use(bodyParser.json({ limit: '50kb' }));
 
+// SADECE BUNU EKLEYİN: HTML dosyalarımızı doğrudan sunar
+const path = require('path');
+app.use(express.static(__dirname));
+
 // 4. Rate Limiting (Against DDoS / Brute Force)
 const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
