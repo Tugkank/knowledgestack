@@ -119,29 +119,43 @@ namespace KnowledgeStack.Game
 
             // ... (Header finding logic unchanged) ...
             
-            Transform header = GameObject.Find("HeaderContainer").transform;
-            if (header != null)
+            // Search globally within GameCanvas for the timer elements 
+            // since they might be deeply nested in Responsive UI containers
+            var canvasObj = GameObject.Find("GameCanvas");
+            if (canvasObj != null)
             {
-                var lvl = header.Find("LevelText");
-                if(lvl) levelText = lvl.GetComponent<TextMeshProUGUI>();
-                
-                var qc = header.Find("QuestionCounter");
-                if(qc) questionCounterText = qc.GetComponent<TextMeshProUGUI>();
-                
-                var qt = header.Find("QuestionText");
-                if(qt) questionText = qt.GetComponent<TextMeshProUGUI>();
-            }
-            else Debug.LogError("HeaderContainer not found!");
+                // Find Texts
+                var allTexts = canvasObj.GetComponentsInChildren<TextMeshProUGUI>(true);
+                foreach (var t in allTexts)
+                {
+                    if (t.name == "LevelText") levelText = t;
+                    else if (t.name == "QuestionCounter") questionCounterText = t;
+                    else if (t.name == "QuestionText") questionText = t;
+                    else if (t.name == "Sayaçtext" || t.name == "TimerText") timerText = t;
+                }
 
-            var ac = GameObject.Find("AnswersContainer");
+                // Find Timer Bar (Image)
+                var allImages = canvasObj.GetComponentsInChildren<Image>(true);
+                foreach (var img in allImages)
+                {
+                    if (img.gameObject.name.Contains("Sayaçbar iç") || img.gameObject.name == "TimerFill")
+                    {
+                        timerBar = img;
+                        break;
+                    }
+                }
+            }
+
+            var ac = GameObject.Find("AnswersContainer") ?? GameObject.Find("answer container");
             if(ac) 
             {
                 answersContainer = ac.transform;
-                // Save default button color from the first button found
-                if(answersContainer.childCount > 0)
+                // Save default button color from the first button found safely
+                var buttons = answersContainer.GetComponentsInChildren<Button>(true);
+                if(buttons.Length > 0)
                 {
-                    var firstBtn = answersContainer.GetChild(0).GetComponent<Image>();
-                    if(firstBtn != null) defaultButtonColor = firstBtn.color;
+                    var firstBtnImg = buttons[0].GetComponent<Image>();
+                    if(firstBtnImg != null) defaultButtonColor = firstBtnImg.color;
                 }
             }
             else Debug.LogError("AnswersContainer not found!");
@@ -323,16 +337,22 @@ namespace KnowledgeStack.Game
 
         private void SetupAnswerButtons(QuestionData q)
         {
+            if (answersContainer == null) return;
+
             var options = QuestionManager.Instance.GetShuffledAnswers(q);
             
-            // Ensure we have 4 buttons in container
-            for (int i = 0; i < 4; i++)
+            // Get all buttons recursively (penetrates Row 1, Row 2 containers)
+            Button[] buttons = answersContainer.GetComponentsInChildren<Button>(true);
+            
+            // Ensure we have 4 buttons to work with
+            int buttonCount = Mathf.Min(4, buttons.Length);
+
+            for (int i = 0; i < buttonCount; i++)
             {
-                Transform btnTrans = answersContainer.GetChild(i);
-                Button btn = btnTrans.GetComponent<Button>();
-                TextMeshProUGUI txt = btnTrans.GetComponentInChildren<TextMeshProUGUI>();
+                Button btn = buttons[i];
+                TextMeshProUGUI txt = btn.GetComponentInChildren<TextMeshProUGUI>();
                 
-                txt.text = options[i];
+                if(txt != null) txt.text = options[i];
                 
                 // Reset sprite to default
                 if (defaultButtonSprite != null)
@@ -443,10 +463,13 @@ namespace KnowledgeStack.Game
 
         private void HighlightCorrectAnswer()
         {
-            foreach (Transform child in answersContainer)
+            if (answersContainer == null) return;
+
+            Button[] buttons = answersContainer.GetComponentsInChildren<Button>(true);
+
+            foreach (Button btn in buttons)
             {
-                Button btn = child.GetComponent<Button>();
-                TextMeshProUGUI txt = child.GetComponentInChildren<TextMeshProUGUI>();
+                TextMeshProUGUI txt = btn.GetComponentInChildren<TextMeshProUGUI>();
                 
                 if (btn != null && txt != null)
                 {
@@ -466,6 +489,7 @@ namespace KnowledgeStack.Game
                             btn.GetComponent<Image>().sprite = correctButtonSprite;
                         else 
                             btn.GetComponent<Image>().color = Color.green;
+                        break; // Stop after highlighting the first correct match
                     }
                 }
             }

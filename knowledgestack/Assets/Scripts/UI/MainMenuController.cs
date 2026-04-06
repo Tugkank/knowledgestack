@@ -56,7 +56,28 @@ namespace KnowledgeStack.UI
                 }
             }
 
+            // Prevent LocalizeText from overwriting our dynamic numbers
+            if (levelText != null && levelText.GetComponent<LocalizeText>() != null) 
+                Destroy(levelText.GetComponent<LocalizeText>());
+                
+            if (scoreText != null && scoreText.GetComponent<LocalizeText>() != null) 
+                Destroy(scoreText.GetComponent<LocalizeText>());
+
+            KnowledgeStack.Core.LanguageManager.OnLanguageChanged += OnLanguageChanged;
+
             RefreshStats();
+        }
+
+        private void OnDestroy()
+        {
+            KnowledgeStack.Core.LanguageManager.OnLanguageChanged -= OnLanguageChanged;
+        }
+
+        private void OnLanguageChanged(KnowledgeStack.Core.Language lang)
+        {
+            int savedLevel = PlayerPrefs.GetInt("CurrentLevel", 1);
+            int savedScore = PlayerPrefs.GetInt("TotalScore", 0);
+            UpdateUI(savedLevel, savedScore);
         }
 
         public void OpenSettings()
@@ -97,12 +118,25 @@ namespace KnowledgeStack.UI
             {
                 NetworkManager.Instance.LoginOrRegister(currentUserId, 
                     (data) => {
-                        PlayerPrefs.SetInt("CurrentLevel", data.level);
-                        // Store best score only if server is higher, or server overwrites local (depends on strictness). 
-                        // For now we trust server as source of truth when online.
-                        PlayerPrefs.SetInt("TotalScore", data.totalScore); 
+                        int localLevel = PlayerPrefs.GetInt("CurrentLevel", 1);
+                        int localScore = PlayerPrefs.GetInt("TotalScore", 0);
+
+                        // Prevent server from overwriting local progress if local is higher
+                        // (e.g. if the user played offline and server is outdated)
+                        int agreedLevel = Mathf.Max(localLevel, data.level);
+                        int agreedScore = Mathf.Max(localScore, data.totalScore);
+
+                        PlayerPrefs.SetInt("CurrentLevel", agreedLevel);
+                        PlayerPrefs.SetInt("TotalScore", agreedScore); 
                         PlayerPrefs.Save();
-                        UpdateUI(data.level, data.totalScore);
+                        
+                        // Push to server if local was ahead (e.g. they played offline)
+                        if (localLevel > data.level)
+                        {
+                            NetworkManager.Instance.SyncProgress(currentUserId, agreedLevel, 0, -1, null, null);
+                        }
+
+                        UpdateUI(agreedLevel, agreedScore);
                     },
                     (error) => {
                         Debug.LogWarning("Could not fetch stats (Offline Mode): " + error);

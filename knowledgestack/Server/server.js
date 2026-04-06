@@ -94,8 +94,9 @@ app.post('/api/game/sync', apiKeyAuth, async (req, res) => {
 
         // SECURITY: Cheat Protection & Logic Validation
         if (!isNaN(level) && level > user.level) {
-            // Cap max level skips per request to 1 to prevent instant max-level cheats
-            if (level <= user.level + 2) {
+            // Allow larger level skips to support users who play offline and sync later
+            // (Increased from +2 to +50 to prevent blocking legitimate offline progress)
+            if (level <= user.level + 50) {
                 user.level = level;
             }
         }
