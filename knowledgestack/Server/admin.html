@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Stack | Admin Paneli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --primary: #38bdf8;
+            --primary-hover: #0284c7;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        /* --- LOGIN SECTION --- */
+        #login-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+        }
+
+        button.btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button.btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        #login-error {
+            color: var(--danger);
+            margin-top: 15px;
+            font-size: 14px;
+            display: none;
+        }
+
+        /* --- DASHBOARD SECTION --- */
+        #dashboard-section {
+            display: none;
+            width: 100%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            color: white;
+        }
+
+        .header .user-count {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        button.btn-outline {
+            background: transparent;
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+
+        button.btn-outline:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* --- TABLE --- */
+        .table-responsive {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        thead {
+            background: var(--bg-dark);
+        }
+
+        th, td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        td {
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge-level {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .badge-score {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .user-id {
+            font-family: monospace;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- LOGIN SECTION -->
+        <div id="login-section">
+            <div class="logo">KNOWLEDGE STACK<br><span style="font-size: 16px; font-weight: 400; color:var(--text-muted);">Admin Panel</span></div>
+            
+            <div class="input-group">
+                <label>Kullanıcı Adı</label>
+                <input type="text" id="username" placeholder="admin">
+            </div>
+            
+            <div class="input-group">
+                <label>Şifre</label>
+                <input type="password" id="password" placeholder="••••••••">
+            </div>
+
+            <button class="btn" onclick="login()">Giriş Yap</button>
+            <div id="login-error">Kullanıcı adı veya şifre hatalı!</div>
+        </div>
+
+        <!-- DASHBOARD SECTION -->
+        <div id="dashboard-section">
+            <div class="header">
+                <div>
+                    <h1>Oyuncu Liderlik Tablosu</h1>
+                    <div class="user-count" id="total-users">Toplam Kayıtlı Oyuncu: Yükleniyor...</div>
+                </div>
+                <button class="btn-outline" onclick="logout()">Çıkış Yap</button>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sıralama</th>
+                            <th>Cihaz ID (Kullanıcı)</th>
+                            <th>Ulaşılan Seviye</th>
+                            <th>Toplam Puan</th>
+                            <th>Çözülen Soru</th>
+                            <th>Son Aktiflik</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <tr>
+                            <td colspan="6" style="text-align:center; padding: 30px;">
+                                <span style="color:var(--text-muted);">Veriler yükleniyor...</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+
+        // Check if already logged in on page load
+        window.onload = () => {
+            const token = localStorage.getItem('admin_token');
+            if (token) {
+                showDashboard();
+                fetchUsers(token);
+            }
+        };
+
+        async function login() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const errorMsg = document.getElementById('login-error');
+            const btn = document.querySelector('.btn');
+
+            errorMsg.style.display = 'none';
+            btn.innerText = 'Bekleniyor...';
+
+            try {
+                const response = await fetch(`${API_BASE}/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: user, password: pass })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    localStorage.setItem('admin_token', data.token);
+                    showDashboard();
+                    fetchUsers(data.token);
+                } else {
+                    errorMsg.innerText = data.error || 'Giriş Başarısız!';
+                    errorMsg.style.display = 'block';
+                }
+            } catch (err) {
+                errorMsg.innerText = 'Sunucuya bağlanılamadı!';
+                errorMsg.style.display = 'block';
+            } finally {
+                btn.innerText = 'Giriş Yap';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('admin_token');
+            document.getElementById('dashboard-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'flex';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function showDashboard() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('dashboard-section').style.display = 'block';
+        }
+
+        async function fetchUsers(token) {
+            const tbody = document.getElementById('users-table-body');
+            const countLabel = document.getElementById('total-users');
+
+            try {
+                const response = await fetch(`${API_BASE}/admin/users`, {
+                    headers: { 'x-admin-token': token }
+                });
+
+                if (response.status === 401) {
+                    alert("Oturum süresi doldu! Lütfen tekrar giriş yapın.");
+                    logout();
+                    return;
+                }
+
+                const data = await response.json();
+                
+                if (data.users && data.users.length > 0) {
+                    countLabel.innerText = `Toplam Kayıtlı Oyuncu: ${data.users.length}`;
+                    
+                    tbody.innerHTML = ''; // Clear table
+                    
+                    data.users.forEach((u, index) => {
+                        const dateParams = u.lastLogin ? new Date(u.lastLogin).toLocaleString('tr-TR') : 'Bilinmiyor';
+                        const qs = u.servedQuestions ? u.servedQuestions.length : 0;
+                        
+                        // Mask the user ID for cleaner view (e.g., abc1234...xyz)
+                        const shortId = u.userId.substring(0, 8) + '...' + u.userId.substring(u.userId.length - 4);
+                        
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td style="font-weight:bold; color:white;">#${index + 1}</td>
+                            <td><span class="user-id" title="${u.userId}">${shortId}</span></td>
+                            <td><span class="badge-level">Seviye ${u.level}</span></td>
+                            <td><span class="badge-score">${u.totalScore} XP</span></td>
+                            <td>${qs} Soru</td>
+                            <td style="color:var(--text-muted); font-size:12px;">${dateParams}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    countLabel.innerText = `Toplam Kayıtlı Oyuncu: 0`;
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Henüz kayıtlı veya oynayan hiç kullanıcı yok.</td></tr>';
+                }
+
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--danger)">Veriler yüklenirken bir hata oluştu: ${err.message}</td></tr>`;
+            }
+        }
+    </script>
+</body>
+</html>

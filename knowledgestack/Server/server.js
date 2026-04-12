@@ -50,6 +50,40 @@ mongoose.connect(MONGO_URI)
 
 // --- ROUTES ---
 
+// --- ADMIN ROUTES ---
+const ADMIN_USER = process.env.ADMIN_USER || 'admin';
+const ADMIN_PASS = process.env.ADMIN_PASS || 'KnowledgeAdmin2024';
+const ADMIN_TOKEN = 'secure_admin_token_2024_temp'; // Simple temporary token
+
+// Admin Middleware
+const adminAuth = (req, res, next) => {
+    const token = req.headers['x-admin-token'];
+    if (!token || token !== ADMIN_TOKEN) {
+        return res.status(401).json({ error: 'Unauthorized access.' });
+    }
+    next();
+};
+
+// Admin Login Route
+app.post('/api/admin/login', (req, res) => {
+    const { username, password } = req.body;
+    if (username === ADMIN_USER && password === ADMIN_PASS) {
+        res.json({ success: true, token: ADMIN_TOKEN });
+    } else {
+        res.status(401).json({ error: 'Invalid credentials.' });
+    }
+});
+
+// Admin Get Users Route (Leaderboard)
+app.get('/api/admin/users', adminAuth, async (req, res) => {
+    try {
+        const users = await User.find({}).sort({ level: -1, totalScore: -1 });
+        res.json({ users });
+    } catch (err) {
+        res.status(500).json({ error: 'Server Error' });
+    }
+});
+
 // 1. LOGIN / SYNC USER
 app.post('/api/auth/login', apiKeyAuth, async (req, res) => {
     // SECURITY: Force string conversion to prevent NoSQL Injection (e.g., passing {$gt: ""} )
