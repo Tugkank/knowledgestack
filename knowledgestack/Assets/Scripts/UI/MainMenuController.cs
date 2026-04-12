@@ -15,6 +15,7 @@ namespace KnowledgeStack.UI
         // In production, get this from Google Play Games / Game Center
         private string currentUserId; 
         private Coroutine popupCoroutine;
+        private UnityEngine.UI.Button playButton;
 
         private void Awake()
         {
@@ -36,11 +37,13 @@ namespace KnowledgeStack.UI
             var playBtnObj = GameObject.Find("PlayButton");
             if (playBtnObj != null)
             {
-                var uBtn = playBtnObj.GetComponent<UnityEngine.UI.Button>();
-                if(uBtn != null)
+                playButton = playBtnObj.GetComponent<UnityEngine.UI.Button>();
+                if(playButton != null)
                 {
-                    uBtn.onClick.RemoveAllListeners();
-                    uBtn.onClick.AddListener(StartGame);
+                    playButton.onClick.RemoveAllListeners();
+                    playButton.onClick.AddListener(StartGame);
+                    // Disable until stats refresh is complete
+                    playButton.interactable = false;
                 }
             }
 
@@ -137,6 +140,7 @@ namespace KnowledgeStack.UI
                         }
 
                         UpdateUI(agreedLevel, agreedScore);
+                        if (playButton != null) playButton.interactable = true;
                     },
                     (error) => {
                         Debug.LogWarning("Could not fetch stats (Offline Mode): " + error);
@@ -144,6 +148,8 @@ namespace KnowledgeStack.UI
                         int savedLevel = PlayerPrefs.GetInt("CurrentLevel", 1);
                         int savedScore = PlayerPrefs.GetInt("TotalScore", 0);
                         UpdateUI(savedLevel, savedScore); 
+                        
+                        if (playButton != null) playButton.interactable = true;
                     }
                 );
             }
@@ -154,6 +160,8 @@ namespace KnowledgeStack.UI
                 PlayerPrefs.SetInt("CurrentLevel", 5);
                 PlayerPrefs.Save();
                 UpdateUI(5, 1250); 
+                
+                if (playButton != null) playButton.interactable = true;
             }
         }
 
