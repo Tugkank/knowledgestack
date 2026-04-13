@@ -44,7 +44,9 @@ const apiKeyAuth = (req, res, next) => {
 };
 
 // MongoDB Connection
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/knowledgestack';
+// Node.js 18+ localhost'u IPv6 (::1) olarak çözmeye çalıştığı için MongoDB bağlanamıyor olabilir.
+// Bu yüzden localhost yerine 127.0.0.1 kullanıyoruz.
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/knowledgestack';
 mongoose.connect(MONGO_URI)
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.log('MongoDB Connection Error:', err));
