@@ -12,7 +12,8 @@ const Question = require('./models/Question');
 const app = express();
 
 // 1. HTTP Security Headers
-app.use(helmet());
+// contentSecurityPolicy kapalı (false) yapıldı çünkü admin.html içindeki JavaScript'in çalışmasını engelliyor.
+app.use(helmet({ contentSecurityPolicy: false }));
 
 // 2. Cross Origin Resource Sharing
 app.use(cors());
