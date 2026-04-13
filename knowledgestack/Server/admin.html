@@ -362,6 +362,12 @@
 
                 const data = await response.json();
                 
+                if (data.error) {
+                    countLabel.innerText = `Toplam Kayıtlı Oyuncu: HATA`;
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--danger)">Sunucu Hatası: ${data.error}</td></tr>`;
+                    return;
+                }
+                
                 if (data.users && data.users.length > 0) {
                     countLabel.innerText = `Toplam Kayıtlı Oyuncu: ${data.users.length}`;
                     
