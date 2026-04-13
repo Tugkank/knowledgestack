@@ -78,10 +78,11 @@ app.post('/api/admin/login', (req, res) => {
 // Admin Get Users Route (Leaderboard)
 app.get('/api/admin/users', adminAuth, async (req, res) => {
     try {
-        const users = await User.find({}).sort({ level: -1, totalScore: -1 });
+        const users = await User.find({}).sort('-level -totalScore').lean();
         res.json({ users });
     } catch (err) {
-        res.status(500).json({ error: 'Server Error' });
+        console.error("Admin Fetch Error:", err);
+        res.status(500).json({ error: 'Server Error: ' + err.message });
     }
 });
 

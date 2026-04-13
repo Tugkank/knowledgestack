@@ -245,7 +245,7 @@
                 <input type="password" id="password" placeholder="••••••••">
             </div>
 
-            <button class="btn" onclick="login()">Giriş Yap</button>
+            <button class="btn" id="login-btn">Giriş Yap</button>
             <div id="login-error">Kullanıcı adı veya şifre hatalı!</div>
         </div>
 
@@ -256,7 +256,7 @@
                     <h1>Oyuncu Liderlik Tablosu</h1>
                     <div class="user-count" id="total-users">Toplam Kayıtlı Oyuncu: Yükleniyor...</div>
                 </div>
-                <button class="btn-outline" onclick="logout()">Çıkış Yap</button>
+                <button class="btn-outline" id="logout-btn">Çıkış Yap</button>
             </div>
 
             <div class="table-responsive">
@@ -288,6 +288,9 @@
 
         // Check if already logged in on page load
         window.onload = () => {
+            document.getElementById('login-btn').addEventListener('click', login);
+            document.getElementById('logout-btn').addEventListener('click', logout);
+
             const token = localStorage.getItem('admin_token');
             if (token) {
                 showDashboard();
